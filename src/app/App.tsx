@@ -1,11 +1,20 @@
 
-import './App.css'
+import {TodoItem} from "../features/TodoComponent/ui/CheckboxItem/TodoItem.tsx";
 
 function App() {
 
   return (
     <>
+      <TodoItem
+          children={'dfsdfsdfsdfsdfsdf'}
+          onClickDell={() => {}}
+          onClickEdit={()=> {}
 
+
+      }>
+
+
+      </TodoItem>
     </>
   )
 }

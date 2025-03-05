@@ -1,0 +1,35 @@
+.todoItem {
+  width: 400px;
+  min-height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--primary-color-inverted);
+  padding: 10px;
+  border-radius: 7px;
+  box-shadow: 0 7px 7px  var(--text-color-inverted);
+}
+
+.buttons{
+  display: flex;
+  gap: 10px;
+  align-items: end;
+}
+
+.textarea {
+  max-width: 300px;
+  min-height: 30px;
+  max-height: 200px;
+  overflow-y: auto;
+  resize: none;
+  padding: 5px;
+  border: 1px solid var(--text-color-inverted);
+  border-radius: 7px;
+  font-size: var(--font-size-small);
+}
+
+.editing {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

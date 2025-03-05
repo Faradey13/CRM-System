@@ -1,0 +1,24 @@
+.button {
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  color: var(--primary-color-inverted);
+  border: none;
+  font-size: var(--font-size-small);
+  &.red {
+    background-color: var(--secondary-color-incerted);
+  }
+  &.blue {
+    background-color: var(--secondary-color);
+  }
+}
+
+.general {
+  width: 90px;
+}
+
+.square {
+  width: 40px;
+}

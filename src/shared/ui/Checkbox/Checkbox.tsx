@@ -18,8 +18,8 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
     const uniqueId = useId()
 
     const handleCheckboxChange = () => {
-        setIsChecked(true)
         onChecked()
+        setIsChecked(true)
     }
     return (
         <div className={cls.checkbox}>
@@ -36,7 +36,7 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
 
             <label
                 htmlFor={uniqueId}
-                className={`${cls.checkboxLabel} ${isChecked || isComplete && cls.checked}`}
+                className={`${cls.checkboxLabel} ${isChecked && cls.checked || isComplete && cls.checked}`}
             >
                 {children}
             </label>

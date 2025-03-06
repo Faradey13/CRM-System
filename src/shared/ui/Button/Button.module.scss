@@ -6,14 +6,33 @@
   border-radius: 7px;
   color: var(--primary-color-inverted);
   border: none;
+  cursor: pointer;
   font-size: var(--font-size-small);
+  transition: 0.4s ease;
+  &:active{
+    scale: 0.95;
+  }
+
   &.red {
-    background-color: var(--secondary-color-incerted);
+    background-color: var(--secondary-color-inverted);
   }
   &.blue {
     background-color: var(--secondary-color);
   }
+
+
+
+  &:hover {
+
+    &.red {
+      background-color: var(--secondary-color-inverted-dark);
+    }
+    &.blue {
+      background-color: var(--secondary-color-dark);
+    }
+  }
 }
+
 
 .general {
   width: 90px;

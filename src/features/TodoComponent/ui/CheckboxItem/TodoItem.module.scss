@@ -8,28 +8,54 @@
   padding: 10px;
   border-radius: 7px;
   box-shadow: 0 7px 7px  var(--text-color-inverted);
+
+  .buttons{
+    display: flex;
+    gap: 10px;
+    align-items: end;
+  }
+
+  .textarea {
+    width: 230px;
+    overflow-y: auto;
+    resize: none;
+    padding: 5px;
+    outline: none;
+    border: 1px solid var(--text-color-inverted);
+    border-radius: 7px;
+    font-size: var(--font-size-small);
+  }
+
+  .editingButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+
+}
+.editing{
+  padding-left: 30px;
+}
+.error{
+  color: var(--secondary-color-inverted);
+  width: 230px;
 }
 
-.buttons{
-  display: flex;
-  gap: 10px;
-  align-items: end;
+.fadeIn {
+  animation: FadeIn linear 0.5s;
+}
+.fadeOut {
+  animation: FadeOut linear 0.5s;
 }
 
-.textarea {
-  max-width: 300px;
-  min-height: 30px;
-  max-height: 200px;
-  overflow-y: auto;
-  resize: none;
-  padding: 5px;
-  border: 1px solid var(--text-color-inverted);
-  border-radius: 7px;
-  font-size: var(--font-size-small);
+@keyframes FadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
 }
 
-.editing {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+@keyframes FadeOut {
+  0% {opacity:1;}
+  100% {opacity:0;}
 }
+

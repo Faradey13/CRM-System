@@ -1,0 +1,52 @@
+.todo {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .todoHeader{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .input {
+      width: 300px;
+      height: 40px;
+      border: none;
+      background: none;
+      border-bottom: 1px solid var(--text-color-inverted);
+      outline: none;
+    }
+    .input::placeholder {
+      color: var(--text-color-inverted);
+      padding: 10px;
+    }
+  }
+  .error {
+    color: var(--secondary-color-inverted);
+  }
+  .todoSection{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .filter {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      font-size: var(--font-size-large);
+      font-weight: bold;
+      padding-left: 10px;
+      padding-right: 10px;
+      cursor: pointer;
+
+      .currentTodo{
+        color: var(--text-collor-link);
+        text-decoration: underline;
+    }
+    }
+  }
+}
+

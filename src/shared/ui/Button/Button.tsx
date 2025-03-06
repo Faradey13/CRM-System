@@ -1,12 +1,8 @@
 import {ButtonHTMLAttributes, FC} from "react";
 import cls from './Button.module.scss'
+import {ButtonColor} from "./model/types.ts";
 
-export enum ButtonColor {
-    red = "red",
-    blue = "blue",
-}
-
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     square: boolean;
     color?: ButtonColor;
 }

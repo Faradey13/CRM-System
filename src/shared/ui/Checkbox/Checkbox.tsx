@@ -36,7 +36,7 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
 
             <label
                 htmlFor={uniqueId}
-                className={`${cls.checkboxLabel} ${isChecked || isComplete}`}
+                className={`${cls.checkboxLabel} ${isChecked || isComplete && cls.checked}`}
             >
                 {children}
             </label>

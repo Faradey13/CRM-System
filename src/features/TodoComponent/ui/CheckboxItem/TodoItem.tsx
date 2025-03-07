@@ -13,6 +13,7 @@ export interface CheckboxComponentProps {
     onClickEdit: (text: string) => void
     onChecked: () => void
     isComplete: boolean
+    isDisabled: boolean
 
 
 }
@@ -23,7 +24,8 @@ export const TodoItem: FC<CheckboxComponentProps> = (props) => {
         onClickDell,
         onClickEdit,
         isComplete,
-        onChecked
+        onChecked,
+        isDisabled
     } = props
 
     const [isEditing, setIsEditing] = useState<boolean>(false)
@@ -95,12 +97,13 @@ export const TodoItem: FC<CheckboxComponentProps> = (props) => {
                             ref={textareaRef}
 
                         />
-                        {validationError && <span className={cls.error}>{validationError}</span>}
+                        {validationError && <span  className={cls.error}>{validationError}</span>}
                     </div>
                 }</Checkbox>
 
                 {!isEditing ? <div className={cls.buttons}>
                         <Button
+                            isDisabled={isDisabled}
                             square={true}
                             onClick={handleStartEditTask}
                         >

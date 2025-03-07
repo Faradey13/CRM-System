@@ -181,6 +181,7 @@ const Todo = () => {
                     </nav>
                     {getCurrentTodo().map((todo) =>
                         <TodoItem
+                            isDisabled={todo.isDone}
                             key={todo.id}
                             isComplete={todo.isDone}
                             onChecked={() => handleCompleteTodo(todo.id)}

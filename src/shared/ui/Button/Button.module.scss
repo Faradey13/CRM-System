@@ -11,6 +11,9 @@
   transition: 0.4s ease;
   &:active{
     scale: 0.95;
+    &:disabled:active{
+      scale: 1
+  }
   }
 
   &.red {
@@ -20,8 +23,6 @@
     background-color: var(--secondary-color);
   }
 
-
-
   &:hover {
 
     &.red {
@@ -29,6 +30,10 @@
     }
     &.blue {
       background-color: var(--secondary-color-dark);
+      &:disabled:hover {
+        background-color: var(--secondary-color);
+
+      }
     }
   }
 }

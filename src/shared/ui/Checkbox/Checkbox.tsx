@@ -16,10 +16,9 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
         isEditing
     } = props
     const uniqueId = useId()
-
     const handleCheckboxChange = () => {
         onChecked()
-        setIsChecked(true)
+        setIsChecked(!isChecked)
     }
     return (
         <div className={cls.checkbox}>
@@ -29,7 +28,7 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
                     id={uniqueId}
                     onChange={handleCheckboxChange}
                     checked={isComplete ? true : isChecked}
-                    disabled={isChecked || isComplete || isEditing}
+                    disabled={ isEditing}
                     className={cls.checkboxInput}
                 />
             }

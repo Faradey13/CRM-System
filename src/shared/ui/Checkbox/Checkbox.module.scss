@@ -16,15 +16,12 @@
     border-radius:50%;
     border: solid 1px var(--text-color-inverted);
     background: var(--primary-color-inverted);
-
+    cursor: pointer;
     transition:  ease-in-out 0.3s;
 
     &:hover {
       scale: 1.2;
       background-color: var(--secondary-color);
-    }
-    &:checked:hover {
-      scale: 1;
     }
   }
 

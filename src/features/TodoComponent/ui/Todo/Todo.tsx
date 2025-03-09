@@ -24,6 +24,7 @@ const Todo = () => {
                         setTodoInfo(data.info)
                     })
                     .catch(error => console.error(error));
+
             }
             if (filteredTodo === 'inWork') {
                 fetch('https://easydev.club/api/v1/todos?filter=inWork', {method: 'GET'})
@@ -44,6 +45,7 @@ const Todo = () => {
                     .catch(error => console.error(error));
             }
         }, [filteredTodo, isChangingTodos])
+
 
         const handleFilter = (filter: 'all' | 'completed' | 'inWork') => {
             setFilteredTodo(filter)
@@ -94,10 +96,10 @@ const Todo = () => {
 
         }
 
-        const handleCompleteTodo = async (id: number) => {
-            const response = await updateTodo(id, {isDone: true})
+        const handleCompleteTodo = async (id: number, status: boolean) => {
+            const response = status? await updateTodo(id, {isDone: false}) : await updateTodo(id, {isDone: true})
             if (response) {
-                setIsChangingTodos(!isChangingTodos)
+                setIsChangingTodos(!isChangingTodos);
             }
         }
 
@@ -182,9 +184,9 @@ const Todo = () => {
                     {getCurrentTodo().map((todo) =>
                         <TodoItem
                             isDisabled={todo.isDone}
-                            key={todo.id}
+                            key={`${todo.id}-${todo.isDone}`}
                             isComplete={todo.isDone}
-                            onChecked={() => handleCompleteTodo(todo.id)}
+                            onChecked={() => handleCompleteTodo(todo.id, todo.isDone)}
                             onClickDell={() => handleDeleteTodo(todo.id)}
                             onClickEdit={(text) => handleEditTodoText(todo.id, text)}
                             children={todo.title}

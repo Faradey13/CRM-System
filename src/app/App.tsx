@@ -1,11 +1,12 @@
-import Todo from "@/features/TodoComponent";
+import TodoPage from "@/pages/TodoPage"
+
 
 
 function App() {
 
   return (
     <>
-        <Todo/>
+        <TodoPage/>
     </>
   )
 }

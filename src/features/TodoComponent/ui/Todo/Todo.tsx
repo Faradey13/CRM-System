@@ -1,8 +1,9 @@
 import {ChangeEvent, useEffect, useState} from "react";
 import {Button} from "@/shared/ui/Button/Button.tsx";
-import {TodoItem} from "../CheckboxItem/TodoItem.tsx";
 import cls from './Todo.module.scss'
-import {MetaResponse, type Todo, TodoInfo, TodoRequest} from '../../model/types'
+import {type Todo, TodoInfo} from '../../model/types/types.ts'
+import {addTodo, deleteTodo, getTodos, updateTodo} from "@/features/TodoComponent/model/api/TodoServices.ts";
+import {TodoItem} from "@/features/TodoComponent/ui/TodoItem/TodoItem.tsx";
 
 
 const Todo = () => {
@@ -17,35 +18,23 @@ const Todo = () => {
 
         useEffect(() => {
             if (filteredTodo === 'all') {
-                fetch('https://easydev.club/api/v1/todos?filter=all', {method: 'GET'})
-                    .then(res => res.json())
-                    .then((data: MetaResponse<Todo, TodoInfo>) => {
-                        setTodosAll(data.data)
-                        setTodoInfo(data.info)
-                    })
-                    .catch(error => console.error(error));
-
+                fetchTodos(setTodosAll,"all")
             }
             if (filteredTodo === 'inWork') {
-                fetch('https://easydev.club/api/v1/todos?filter=inWork', {method: 'GET'})
-                    .then(res => res.json())
-                    .then((data) => {
-                        setTodosInWork(data.data)
-                        setTodoInfo(data.info)
-                    })
-                    .catch(error => console.error(error));
+                fetchTodos(setTodosInWork,'inWork')
             }
             if (filteredTodo === 'completed') {
-                fetch('https://easydev.club/api/v1/todos?filter=completed', {method: 'GET'})
-                    .then(res => res.json())
-                    .then((data) => {
-                        setTodosCompleted(data.data)
-                        setTodoInfo(data.info)
-                    })
-                    .catch(error => console.error(error));
+                fetchTodos(setTodosCompleted,"completed")
             }
         }, [filteredTodo, isChangingTodos])
 
+    const fetchTodos = async (setData: (data:Todo[])=>void,type: 'all' | 'completed' | 'inWork') => {
+        const data = await getTodos(type)
+        if(data){
+            setData(data.data)
+            setTodoInfo(data.info)
+        }
+    }
 
         const handleFilter = (filter: 'all' | 'completed' | 'inWork') => {
             setFilteredTodo(filter)
@@ -80,21 +69,6 @@ const Todo = () => {
 
         }
 
-        const updateTodo = async (id: number, data: TodoRequest) => {
-            try {
-                const response = await fetch(`https://easydev.club/api/v1/todos/${id}`, {
-                    method: 'PUT',
-                    body: JSON.stringify(data),
-                })
-                if (!response.ok) {
-                    throw new Error('запрос изменения todo вернулся с ошибкой');
-                }
-                return response.json()
-            } catch (error) {
-                console.error(error, 'ошибка обновления todo')
-            }
-
-        }
 
         const handleCompleteTodo = async (id: number, status: boolean) => {
             const response = status? await updateTodo(id, {isDone: false}) : await updateTodo(id, {isDone: true})
@@ -104,32 +78,17 @@ const Todo = () => {
         }
 
         const addNewTodo = async (title: string) => {
-            try {
-                const response = await fetch('https://easydev.club/api/v1/todos', {
-                    method: 'POST',
-                    body: JSON.stringify({title: title})
-                })
-                if (!response.ok) {
-                    throw new Error('запрос добавления todo вернулся с ошибкой');
-                }
+                const response = await addTodo(title)
+            if(response){
                 setIsChangingTodos(!isChangingTodos)
-            } catch (error) {
-                console.error(error, 'ошибка добавления todo')
             }
 
         }
 
         const handleDeleteTodo = async (id: number) => {
-            try {
-                const response = await fetch(`https://easydev.club/api/v1/todos/${id}`, {
-                    method: 'DELETE'
-                })
-                if (!response.ok) {
-                    throw new Error('запрос удаления todo вернулся с ошибкой');
-                }
+                const response = await deleteTodo(id)
+            if (response) {
                 setIsChangingTodos(!isChangingTodos)
-            } catch (error) {
-                console.error(error, 'ошибка удаления todo')
             }
         }
 

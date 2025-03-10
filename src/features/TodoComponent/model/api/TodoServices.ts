@@ -1,6 +1,12 @@
-import {MetaResponse, type Todo, TodoInfo, TodoRequest} from "@/features/TodoComponent/model/types/types.ts";
+import {
+    MetaResponse,
+    type Todo,
+    TodoFilter,
+    TodoInfo,
+    TodoRequest
+} from "@/features/TodoComponent/model/types/types.ts";
 
-export const getTodos = async (type: 'all' | 'completed' | 'inWork'): Promise<MetaResponse<Todo, TodoInfo>> => {
+export const getTodos = async (type: TodoFilter): Promise<MetaResponse<Todo, TodoInfo>> => {
     try {
         const response = await fetch(`https://easydev.club/api/v1/todos?filter=${type}`, {method: 'GET'})
         if (!response.ok) {

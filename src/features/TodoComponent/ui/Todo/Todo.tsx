@@ -1,7 +1,7 @@
 import {ChangeEvent, useEffect, useState} from "react";
 import {Button} from "@/shared/ui/Button/Button.tsx";
 import cls from './Todo.module.scss'
-import {type Todo, TodoInfo} from '../../model/types/types.ts'
+import {type Todo, TodoFilter, TodoInfo} from '../../model/types/types.ts'
 import {addTodo, deleteTodo, getTodos, updateTodo} from "@/features/TodoComponent/model/api/TodoServices.ts";
 import {TodoItem} from "@/features/TodoComponent/ui/TodoItem/TodoItem.tsx";
 
@@ -12,7 +12,7 @@ const Todo = () => {
         const [todosInWork, setTodosInWork] = useState<Todo[]>([])
         const [todosCompleted, setTodosCompleted] = useState<Todo[]>([])
         const [todoInfo, setTodoInfo] = useState<TodoInfo>()
-        const [filteredTodo, setFilteredTodo] = useState<'all' | 'completed' | 'inWork'>('all')
+        const [filteredTodo, setFilteredTodo] = useState<TodoFilter>('all')
         const [isChangingTodos, setIsChangingTodos] = useState<boolean>(false)
         const [validationError, setValidationError] = useState<string | null>(null)
 
@@ -28,7 +28,7 @@ const Todo = () => {
             }
         }, [filteredTodo, isChangingTodos])
 
-    const fetchTodos = async (setData: (data:Todo[])=>void,type: 'all' | 'completed' | 'inWork') => {
+    const fetchTodos = async (setData: (data:Todo[])=>void,type: TodoFilter) => {
         const data = await getTodos(type)
         if(data){
             setData(data.data)
@@ -36,7 +36,7 @@ const Todo = () => {
         }
     }
 
-        const handleFilter = (filter: 'all' | 'completed' | 'inWork') => {
+        const handleFilter = (filter: TodoFilter) => {
             setFilteredTodo(filter)
         }
         const getCurrentTodo = () => {

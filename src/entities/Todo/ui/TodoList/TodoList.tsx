@@ -1,12 +1,12 @@
 import {ChangeEvent, useEffect, useState} from "react";
 import {Button} from "@/shared/ui/Button/Button.tsx";
-import cls from './Todo.module.scss'
+import cls from './TodoList.module.scss'
 import {type Todo, TodoFilter, TodoInfo} from '../../model/types/types.ts'
-import {addTodo, deleteTodo, getTodos, updateTodo} from "@/features/TodoComponent/model/api/TodoServices.ts";
-import {TodoItem} from "@/features/TodoComponent/ui/TodoItem/TodoItem.tsx";
+import {addTodo, deleteTodo, getTodos, updateTodo} from "@/entities/Todo/api/TodoServices.ts";
+import {TodoItem} from "@/entities/Todo/ui/TodoItem/TodoItem.tsx";
 
 
-const Todo = () => {
+const TodoList = () => {
         const [newTodoValue, setNewTodoValue] = useState('')
         const [todosAll, setTodosAll] = useState<Todo[]>([])
         const [todosInWork, setTodosInWork] = useState<Todo[]>([])
@@ -158,4 +158,4 @@ const Todo = () => {
     }
 ;
 
-export default Todo;
+export default TodoList;

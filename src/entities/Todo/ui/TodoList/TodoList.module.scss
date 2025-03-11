@@ -15,16 +15,16 @@
       height: 40px;
       border: none;
       background: none;
-      border-bottom: 1px solid var(--text-color-inverted);
+      border-bottom: 1px solid var(--text-color-grey);
       outline: none;
     }
     .input::placeholder {
-      color: var(--text-color-inverted);
+      color: var(--text-color-grey);
       padding: 10px;
     }
   }
   .error {
-    color: var(--secondary-color-inverted);
+    color: var(--error-color);
   }
   .todoSection{
     display: flex;

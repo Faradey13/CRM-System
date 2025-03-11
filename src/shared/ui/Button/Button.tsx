@@ -10,7 +10,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button:FC<ButtonProps> = (props) => {
     const {square
-        , color = ButtonColor.blue,
+        , color = ButtonColor.primary,
         onClick,
         children,
         isDisabled = false

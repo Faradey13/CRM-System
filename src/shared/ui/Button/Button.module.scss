@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 7px;
-  color: var(--primary-color-inverted);
+  color: var(--primary-color-bg-light);
   border: none;
   cursor: pointer;
   font-size: var(--font-size-small);
@@ -16,22 +16,22 @@
   }
   }
 
-  &.red {
-    background-color: var(--secondary-color-inverted);
+  &.error {
+    background-color: var(--error-color);
   }
-  &.blue {
-    background-color: var(--secondary-color);
+  &.primary {
+    background-color: var(--primary-color);
   }
 
   &:hover {
 
-    &.red {
-      background-color: var(--secondary-color-inverted-dark);
+    &.error {
+      background-color: var(--error-color-light);
     }
-    &.blue {
-      background-color: var(--secondary-color-dark);
+    &.primary {
+      background-color: var(--primary-color-dark);
       &:disabled:hover {
-        background-color: var(--secondary-color);
+        background-color: var(--primary-color);
 
       }
     }

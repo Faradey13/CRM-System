@@ -112,7 +112,7 @@ export const TodoItem: FC<CheckboxComponentProps> = (props) => {
                         <Button
                             square={true}
                             onClick={handleRemove}
-                            color={ButtonColor.red}
+                            color={ButtonColor.error}
                         >
                             <img src={imgTrash} alt=""/>
                         </Button>
@@ -127,7 +127,7 @@ export const TodoItem: FC<CheckboxComponentProps> = (props) => {
                         <Button
                             square={false}
                             onClick={handleCancelEditing}
-                            color={ButtonColor.red}
+                            color={ButtonColor.error}
                         >
                             Отменить
                         </Button>

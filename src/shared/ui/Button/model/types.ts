@@ -1,7 +1,7 @@
 
 
 export enum ButtonColor {
-    red = "red",
-    blue = "blue",
+    error = "error",
+    primary = "primary",
 }
 

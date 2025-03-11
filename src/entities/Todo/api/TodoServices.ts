@@ -4,7 +4,7 @@ import {
     TodoFilter,
     TodoInfo,
     TodoRequest
-} from "@/features/TodoComponent/model/types/types.ts";
+} from "@/entities/Todo/model/types/types.ts";
 
 export const getTodos = async (type: TodoFilter): Promise<MetaResponse<Todo, TodoInfo>> => {
     try {

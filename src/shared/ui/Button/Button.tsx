@@ -6,6 +6,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     square: boolean;
     color?: ButtonColor;
     isDisabled?: boolean;
+    formId?: string;
+
 }
 
 export const Button:FC<ButtonProps> = (props) => {
@@ -13,7 +15,8 @@ export const Button:FC<ButtonProps> = (props) => {
         , color = ButtonColor.primary,
         onClick,
         children,
-        isDisabled = false
+        isDisabled = false,
+        formId,
     } = props
     const buttonClasses = [
         cls.button,
@@ -26,6 +29,7 @@ export const Button:FC<ButtonProps> = (props) => {
             onClick={onClick}
             className={buttonClasses}
             disabled={isDisabled}
+            {...(formId ? { form: formId } : {})}
         >
             {children}
         </button>

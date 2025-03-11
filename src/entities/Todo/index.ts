@@ -1,3 +1,3 @@
-import TodoList from "@/entities/Todo/ui/TodoList/TodoList.tsx";
+import {TodoComponent} from './ui/TodoComponent/TodoComponent'
 
-export default TodoList
+export default TodoComponent

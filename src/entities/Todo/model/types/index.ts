@@ -24,4 +24,8 @@ export interface MetaResponse<T, N> {
     }
 }
 
-export type TodoFilter = 'all' | 'completed' | 'inWork';
+export enum TodoFilter  {
+    ALL = 'all',
+    COMPLETED = 'completed',
+    IN_WORK = 'inWork',
+}

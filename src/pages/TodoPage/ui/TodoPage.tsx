@@ -1,9 +1,10 @@
-import TodoList from "@/entities/Todo";
+import TodoComponent from "@/entities/Todo";
+
 
 export const TodoPage = () => {
     return (
         <div>
-            <TodoList/>
+            <TodoComponent/>
         </div>
     );
 };

@@ -1,31 +1,32 @@
 import cls from './TodoItem.module.scss'
-import {FC, useEffect, useRef, useState} from "react";
+import {FC, FormEvent, ReactNode, useEffect, useId, useRef, useState} from "react";
 import {Checkbox} from "@/shared/ui/Checkbox/Checkbox.tsx";
 import {Button} from "@/shared/ui/Button/Button.tsx";
 import imgTrash from '@/shared/assets/icons/trash.svg'
 import imgPencil from '@/shared/assets/icons/pensil-paper.svg'
 import {ButtonColor} from "@/shared/ui/Button/model/types.ts";
+import {ErrorComponent} from "../ErrorComponent/ErrorComponent.tsx";
+import {deleteTodo, updateTodo} from "../../model/api/api.ts";
 
 
 export interface CheckboxComponentProps {
-    children: string
-    onClickDell: () => void
-    onClickEdit: (text: string) => void
-    onChecked: () => void
+    children: ReactNode
     isComplete: boolean
     isDisabled: boolean
-
-
+    todoId: number
+    onChangeTodo: () => void
+    title: string
 }
 
 export const TodoItem: FC<CheckboxComponentProps> = (props) => {
     const {
         children,
-        onClickDell,
-        onClickEdit,
         isComplete,
-        onChecked,
-        isDisabled
+        isDisabled,
+        todoId,
+        onChangeTodo,
+        title
+
     } = props
 
     const [isEditing, setIsEditing] = useState<boolean>(false)
@@ -34,6 +35,7 @@ export const TodoItem: FC<CheckboxComponentProps> = (props) => {
     const [validationError, setValidationError] = useState<null | string>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+    const formId = useId()
 
     useEffect(() => {
         const textarea = textareaRef.current;
@@ -45,18 +47,19 @@ export const TodoItem: FC<CheckboxComponentProps> = (props) => {
 
     const handleRemove = () => {
         setIsRemoving(true);
-        setTimeout(() => {
-            onClickDell();
+        setTimeout(async() => {
+            await handleDeleteTodo(todoId);
         }, 100);
     };
 
     const handleStartEditTask = () => {
         setIsEditing(true)
-        setEditValue(children)
+        setEditValue(title)
 
     }
 
-    const handleEditTask = () => {
+    const handleEditTask = async (event: FormEvent<HTMLFormElement> ) => {
+        event.preventDefault()
         if (editValue.length < 2) {
             setValidationError('Длинна задачи должна быть больше 2')
             return;
@@ -66,13 +69,33 @@ export const TodoItem: FC<CheckboxComponentProps> = (props) => {
             return;
         }
         setValidationError(null)
-        onClickEdit(editValue)
+        await handleEditTodoText(todoId, editValue)
         setIsEditing(false)
     }
 
     const handleCancelEditing = () => {
         setIsEditing(false)
         setValidationError(null)
+    }
+
+    const handleDeleteTodo = async (id: number) => {
+        await deleteTodo(id)
+        onChangeTodo();
+    }
+
+    const handleEditTodoText = async (id: number, text: string) => {
+        await updateTodo(id, {title: text})
+        onChangeTodo();
+    }
+
+    const handleCompleteTodo = async (id: number, status: boolean) => {
+        if(status){
+            await updateTodo(id, {isDone: false})
+        } else {
+            await updateTodo(id, {isDone: true})
+        }
+        onChangeTodo();
+
     }
 
     const todoItemClass = [
@@ -86,22 +109,22 @@ export const TodoItem: FC<CheckboxComponentProps> = (props) => {
             <div className={todoItemClass}>
                 <Checkbox
                     isEditing={isEditing}
-                    onChecked={onChecked}
+                    onChecked={() => handleCompleteTodo(todoId, isComplete)}
                     isComplete={isComplete}
                 >{!isEditing ? children :
                     <div>
-                        <textarea
-                            onChange={(e) => setEditValue(e.target.value)}
-                            value={editValue}
-                            className={cls.textarea}
-                            ref={textareaRef}
-
-                        />
-                        {validationError && <span  className={cls.error}>{validationError}</span>}
+                        <form id={formId} onSubmit={handleEditTask}>
+                           <textarea
+                               onChange={(e) => setEditValue(e.target.value)}
+                               value={editValue}
+                               className={cls.textarea}
+                               ref={textareaRef}
+                           />
+                        </form>
+                        <ErrorComponent textError={validationError}/>
                     </div>
                 }</Checkbox>
-
-                {!isEditing ? <div className={cls.buttons}>
+                {!isEditing && <div className={cls.buttons}>
                         <Button
                             isDisabled={isDisabled}
                             square={true}
@@ -116,11 +139,12 @@ export const TodoItem: FC<CheckboxComponentProps> = (props) => {
                         >
                             <img src={imgTrash} alt=""/>
                         </Button>
-                    </div> :
+                    </div> }
+                {isEditing &&
                     <div className={`${cls.buttons} ${cls.editingButtons}`}>
                         <Button
                             square={false}
-                            onClick={handleEditTask}
+                            formId={formId}
                         >
                             Изменить
                         </Button>

@@ -12,9 +12,8 @@ interface addForm extends FormHTMLAttributes<HTMLFormElement> {
 
 }
 
-const AddForm:FC<addForm> = (props) => {
+const AddForm:FC<addForm> = ({onAdded}) => {
 
-    const {onAdded} = props
     const [newTodoValue, setNewTodoValue] = useState<string>('')
     const [validationError, setValidationError] = useState<string | null>(null)
 

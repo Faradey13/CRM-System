@@ -9,12 +9,10 @@ interface TodoListProps {
     todos: Todo[] | undefined
 }
 
-const TodoList: FC<TodoListProps> = (props) => {
-
-        const {
-            onChangeTodo,
-            todos
-        } = props
+const TodoList: FC<TodoListProps> = ({
+                                         onChangeTodo,
+                                         todos
+                                     }) => {
 
         return (
             <section className={cls.todoSection}>

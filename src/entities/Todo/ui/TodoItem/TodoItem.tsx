@@ -9,9 +9,11 @@ import {ErrorComponent} from "../ErrorComponent/ErrorComponent.tsx";
 import {deleteTodo, updateTodo} from "@/entities/Todo/api/api.ts";
 import {MAX_LENGTH_TASK, MIN_LENGTH_TASK} from "@/entities/Todo/model/constants";
 
+interface ChildrenProps {
+    children?: ReactNode;
+}
 
-export interface CheckboxComponentProps {
-    children: ReactNode
+interface CheckboxComponentProps extends  ChildrenProps{
     isComplete: boolean
     isDisabled: boolean
     todoId: number
@@ -19,16 +21,16 @@ export interface CheckboxComponentProps {
     title: string
 }
 
-export const TodoItem: FC<CheckboxComponentProps> = (props) => {
-    const {
-        children,
-        isComplete,
-        isDisabled,
-        todoId,
-        onChangeTodo,
-        title
+export const TodoItem: FC<CheckboxComponentProps> = ({
+                                                         children,
+                                                         isComplete,
+                                                         isDisabled,
+                                                         todoId,
+                                                         onChangeTodo,
+                                                         title
 
-    } = props
+                                                     }) => {
+
 
     const [isEditing, setIsEditing] = useState<boolean>(false)
     const [editValue, setEditValue] = useState<string>('')

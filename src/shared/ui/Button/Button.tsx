@@ -10,13 +10,12 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 }
 
-export const Button:FC<ButtonProps> = (props) => {
-    const {
-        square,
-        color = ButtonColor.primary,
-        isDisabled = false,
-        ...otherProps
-    } = props
+export const Button:FC<ButtonProps> = ({
+                                           square,
+                                           color = ButtonColor.primary,
+                                           isDisabled = false,
+                                           ...otherProps
+                                       }) => {
     const buttonClasses = [
         cls.button,
         square ? cls.square : cls.general,

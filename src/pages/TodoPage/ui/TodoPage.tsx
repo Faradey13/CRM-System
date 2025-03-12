@@ -8,30 +8,26 @@ import {getTodos} from "@/entities/Todo/api/api.ts";
 
 
 export const TodoPage = () => {
-    const [isChangingTodos, setIsChangingTodos] = useState<boolean>(false)
+
     const [filteredTodo, setFilteredTodo] = useState<TodoFilter>(TodoFilter.ALL)
     const [todoInfo, setTodoInfo] = useState<TodoInfo>()
     const [todos, setTodos] = useState<Todo[]>()
 
 
-    const handleUpdateAfterAddedTodo = () => {
-        setIsChangingTodos(!isChangingTodos)
-    }
-
     useEffect(() => {
         try {
-            fetchTodos(setTodos, filteredTodo)
+            fetchTodos()
         } catch {
             alert('Ошибка загрузки всех задач')
         }
 
-    }, [filteredTodo, isChangingTodos])
+    }, [filteredTodo])
 
 
-    const fetchTodos = async (setData: (data: Todo[]) => void, type: TodoFilter) => {
-        const data = await getTodos(type)
+    const fetchTodos = async () => {
+        const data = await getTodos(filteredTodo)
         if (data) {
-            setData(data.data)
+            setTodos(data.data)
             setTodoInfo(data.info)
         }
     }
@@ -39,7 +35,7 @@ export const TodoPage = () => {
     return (
         <main className={cls.wrapper}>
             <header className={cls.todoHeader}>
-                <AddForm onAdded={handleUpdateAfterAddedTodo}/>
+                <AddForm onAdded={fetchTodos}/>
             </header>
             <ListSwitch
                 todoInfo={todoInfo}
@@ -47,7 +43,7 @@ export const TodoPage = () => {
                 filteredTodo={filteredTodo}
             />
             <TodoList
-                onChangeTodo={handleUpdateAfterAddedTodo}
+                onChangeTodo={fetchTodos}
                 todos={todos}
             />
         </main>

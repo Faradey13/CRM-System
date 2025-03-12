@@ -7,9 +7,9 @@ interface ListSwitchProps {
     todoInfo: TodoInfo | undefined
     filteredTodo: TodoFilter
 }
-export const ListSwitch:FC<ListSwitchProps> = (props) => {
 
-    const {todoInfo, onFilterChange, filteredTodo} = props
+export const ListSwitch: FC<ListSwitchProps> = ({todoInfo, onFilterChange, filteredTodo}) => {
+
 
     const handleFilterTodos = (filter: TodoFilter) => {
         onFilterChange(filter)

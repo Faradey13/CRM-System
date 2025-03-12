@@ -7,14 +7,13 @@ export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
     isEditing: boolean,
 }
 
-export const Checkbox: FC<CheckboxProps> = (props) => {
+export const Checkbox: FC<CheckboxProps> = ({
+                                                children,
+                                                onChecked,
+                                                isComplete,
+                                                isEditing
+                                            }) => {
     const [isChecked, setIsChecked] = useState<boolean>(false)
-    const {
-        children,
-        onChecked,
-        isComplete,
-        isEditing
-    } = props
     const uniqueId = useId()
     const handleCheckboxChange = () => {
         onChecked()

@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
   background: var(--primary-color-bg-light);
-  padding: 10px;
+  padding: 1em;
   border-radius: 7px;
   box-shadow: 0 7px 7px  var(--text-color-grey);
 
@@ -19,7 +19,7 @@
     width: 230px;
     overflow-y: auto;
     resize: none;
-    padding: 5px;
+    padding: 0.3em;
     outline: none;
     border: 1px solid var(--text-color-grey);
     border-radius: 7px;
@@ -29,7 +29,7 @@
   .editingButtons {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1em;
   }
 
 

@@ -1,10 +1,9 @@
-
-import {Button} from "@/shared/ui/Button/Button.tsx";
 import {ChangeEvent, FC, FormEvent, FormHTMLAttributes, useState} from "react";
-import {addTodo} from "../../model/api/api.ts";
-import {TODO_CONFIG} from "@/shared/config/constants.ts";
+import {addTodo} from "@/entities/Todo/api/api.ts";
 import cls from './AddForm.module.scss'
 import {ErrorComponent} from "../ErrorComponent/ErrorComponent.tsx";
+import {MAX_LENGTH_TASK, MIN_LENGTH_TASK} from "../../model/constants";
+import {Button} from "@/shared/ui/Button/Button.tsx";
 
 
 interface addForm extends FormHTMLAttributes<HTMLFormElement> {
@@ -16,7 +15,6 @@ interface addForm extends FormHTMLAttributes<HTMLFormElement> {
 const AddForm:FC<addForm> = (props) => {
 
     const {onAdded} = props
-
     const [newTodoValue, setNewTodoValue] = useState<string>('')
     const [validationError, setValidationError] = useState<string | null>(null)
 
@@ -24,32 +22,26 @@ const AddForm:FC<addForm> = (props) => {
         setNewTodoValue(e.target.value)
 
     }
-
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault()
-        if (newTodoValue.length < TODO_CONFIG.MIN_LENGTH_TASK) {
-            setValidationError(`Длинна задачи должна быть больше ${TODO_CONFIG.MIN_LENGTH_TASK}`)
+        if (newTodoValue.length < MIN_LENGTH_TASK) {
+            setValidationError(`Длинна задачи должна быть больше ${MIN_LENGTH_TASK}`)
             return;
         }
-        if (newTodoValue.length > TODO_CONFIG.MAX_LENGTH_TASK) {
-            setValidationError(`Длинна задачи должна быть меньше ${TODO_CONFIG.MAX_LENGTH_TASK}`)
+        if (newTodoValue.length > MAX_LENGTH_TASK) {
+            setValidationError(`Длинна задачи должна быть меньше ${MAX_LENGTH_TASK}`)
             return;
         }
         setValidationError(null)
-        await addNewTodo(newTodoValue)
+        await addTodo(newTodoValue)
+        onAdded()
         setNewTodoValue('')
 
     }
 
-    const addNewTodo = async (title: string) => {
-       await addTodo(title)
-        onAdded()
-    }
-
-
     return (
         <form className={cls.formContainer} onSubmit={handleSubmit}>
-            <section className={cls.addForm}>
+            <section className={cls.form}>
                 <input
                     onBlur={() => setValidationError(null)}
                     className={cls.input}
@@ -60,6 +52,7 @@ const AddForm:FC<addForm> = (props) => {
                 />
                 <Button
                     square={false}
+
                 >
                     Add
                 </Button>

@@ -5,10 +5,10 @@ interface ErrorComponentProps {
     textError: string | null;
 }
 
-export const ErrorComponent:FC<ErrorComponentProps> = (props) => {
+export const ErrorComponent: FC<ErrorComponentProps> = (props) => {
     const {textError} = props
-    return textError ? (
+    return textError &&
         <span className={cls.error} role="alert">{textError}</span>
-    ) : null;
+
 };
 

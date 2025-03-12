@@ -4,12 +4,12 @@ import {
     TodoFilter,
     TodoInfo,
     TodoRequest
-} from "../types";
-import {TODO_CONFIG} from "@/shared/config/constants.ts";
+} from "../model/types";
+import {BASE_URL} from "@/shared/config/constants";
 
 export const getTodos = async (type: TodoFilter): Promise<MetaResponse<Todo, TodoInfo>> => {
     try {
-        const response = await fetch(`${TODO_CONFIG.BASE_URL}?filter=${type}`, {method: 'GET'})
+        const response = await fetch(`${BASE_URL}/todos?filter=${type}`, {method: 'GET'})
         if (!response.ok) {
             throw new Error('запрос получения всех todo вернулся с ошибкой');
         }
@@ -22,7 +22,7 @@ export const getTodos = async (type: TodoFilter): Promise<MetaResponse<Todo, Tod
 
 export const addTodo = async (title: string) => {
     try {
-        const response = await fetch(`${TODO_CONFIG.BASE_URL}`, {
+        const response = await fetch(`${BASE_URL}/todos`, {
             method: 'POST',
             body: JSON.stringify({title: title})
         })
@@ -38,7 +38,7 @@ export const addTodo = async (title: string) => {
 
 export const deleteTodo = async (id: number) => {
     try {
-        const response = await fetch(`${TODO_CONFIG.BASE_URL}/${id}`, {
+        const response = await fetch(`${BASE_URL}/todos/${id}`, {
             method: 'DELETE'
         })
         if (!response.ok) {
@@ -51,7 +51,7 @@ export const deleteTodo = async (id: number) => {
 
 export const updateTodo = async (id: number, data: TodoRequest) => {
     try {
-        const response = await fetch(`${TODO_CONFIG.BASE_URL}/${id}`, {
+        const response = await fetch(`${BASE_URL}/todos/${id}`, {
             method: 'PUT',
             body: JSON.stringify(data),
         })

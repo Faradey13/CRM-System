@@ -6,7 +6,8 @@ import imgTrash from '@/shared/assets/icons/trash.svg'
 import imgPencil from '@/shared/assets/icons/pensil-paper.svg'
 import {ButtonColor} from "@/shared/ui/Button/model/types.ts";
 import {ErrorComponent} from "../ErrorComponent/ErrorComponent.tsx";
-import {deleteTodo, updateTodo} from "../../model/api/api.ts";
+import {deleteTodo, updateTodo} from "@/entities/Todo/api/api.ts";
+import {MAX_LENGTH_TASK, MIN_LENGTH_TASK} from "@/entities/Todo/model/constants";
 
 
 export interface CheckboxComponentProps {
@@ -60,12 +61,12 @@ export const TodoItem: FC<CheckboxComponentProps> = (props) => {
 
     const handleEditTask = async (event: FormEvent<HTMLFormElement> ) => {
         event.preventDefault()
-        if (editValue.length < 2) {
-            setValidationError('Длинна задачи должна быть больше 2')
+        if (editValue.length < MIN_LENGTH_TASK) {
+            setValidationError(`Длинна задачи должна быть больше ${MIN_LENGTH_TASK}`)
             return;
         }
-        if (editValue.length > 64) {
-            setValidationError('Длинна задачи должна быть меньше 64')
+        if (editValue.length > MAX_LENGTH_TASK) {
+            setValidationError(`Длинна задачи должна быть меньше ${MAX_LENGTH_TASK}`)
             return;
         }
         setValidationError(null)
@@ -81,6 +82,7 @@ export const TodoItem: FC<CheckboxComponentProps> = (props) => {
     const handleDeleteTodo = async (id: number) => {
         await deleteTodo(id)
         onChangeTodo();
+        alert('сделано хозяин')
     }
 
     const handleEditTodoText = async (id: number, text: string) => {
@@ -89,11 +91,7 @@ export const TodoItem: FC<CheckboxComponentProps> = (props) => {
     }
 
     const handleCompleteTodo = async (id: number, status: boolean) => {
-        if(status){
-            await updateTodo(id, {isDone: false})
-        } else {
-            await updateTodo(id, {isDone: true})
-        }
+        await updateTodo(id, {isDone: !status})
         onChangeTodo();
 
     }
@@ -144,7 +142,7 @@ export const TodoItem: FC<CheckboxComponentProps> = (props) => {
                     <div className={`${cls.buttons} ${cls.editingButtons}`}>
                         <Button
                             square={false}
-                            formId={formId}
+                            form={formId}
                         >
                             Изменить
                         </Button>

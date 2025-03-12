@@ -1,0 +1,16 @@
+.filter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-size-large);
+  font-weight: bold;
+  padding-left: 1em;
+  padding-right: 1em;
+  cursor: pointer;
+
+  .active {
+    color: var(--text-collor-link);
+    text-decoration: underline;
+  }
+}

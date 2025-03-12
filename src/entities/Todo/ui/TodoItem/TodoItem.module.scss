@@ -1,0 +1,62 @@
+.todoItem {
+  width: 400px;
+  min-height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--primary-color-bg-light);
+  padding: 1em;
+  border-radius: 7px;
+  box-shadow: 0 7px 7px  var(--text-color-grey);
+
+  .buttons{
+    display: flex;
+    gap: 10px;
+    align-items: end;
+  }
+
+  .textarea {
+    width: 230px;
+    overflow-y: auto;
+    resize: none;
+    padding: 0.3em;
+    outline: none;
+    border: 1px solid var(--text-color-grey);
+    border-radius: 7px;
+    font-size: var(--font-size-small);
+  }
+
+  .editingButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+
+
+}
+.editing{
+  padding-left: 30px;
+}
+.error{
+  color: var(--error-color);
+  width: 230px;
+  text-decoration: none !important;
+}
+
+.fadeIn {
+  animation: FadeIn linear 0.5s;
+}
+.fadeOut {
+  animation: FadeOut linear 0.5s;
+}
+
+@keyframes FadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@keyframes FadeOut {
+  0% {opacity:1;}
+  100% {opacity:0;}
+}
+

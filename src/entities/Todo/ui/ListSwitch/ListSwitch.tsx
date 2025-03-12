@@ -1,18 +1,17 @@
 import cls from "./ListSwitch.module.scss";
 import {TodoFilter, TodoInfo} from "../../model/types";
-import {FC, useState} from "react";
+import {FC} from "react";
 
 interface ListSwitchProps {
     onFilterChange: (filter: TodoFilter) => void
     todoInfo: TodoInfo | undefined
+    filteredTodo: TodoFilter
 }
 export const ListSwitch:FC<ListSwitchProps> = (props) => {
 
-    const {todoInfo, onFilterChange} = props
-    const [filteredTodo, setFilteredTodo] = useState<TodoFilter>(TodoFilter.ALL)
+    const {todoInfo, onFilterChange, filteredTodo} = props
 
     const handleFilterTodos = (filter: TodoFilter) => {
-        setFilteredTodo(filter)
         onFilterChange(filter)
     }
 

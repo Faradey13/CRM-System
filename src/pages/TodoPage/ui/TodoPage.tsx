@@ -13,6 +13,7 @@ export const TodoPage = () => {
     const [todoInfo, setTodoInfo] = useState<TodoInfo>()
     const [todos, setTodos] = useState<Todo[]>()
 
+
     const handleUpdateAfterAddedTodo = () => {
         setIsChangingTodos(!isChangingTodos)
     }
@@ -43,6 +44,7 @@ export const TodoPage = () => {
             <ListSwitch
                 todoInfo={todoInfo}
                 onFilterChange={setFilteredTodo}
+                filteredTodo={filteredTodo}
             />
             <TodoList
                 onChangeTodo={handleUpdateAfterAddedTodo}

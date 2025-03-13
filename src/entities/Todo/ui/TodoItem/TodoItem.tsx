@@ -1,6 +1,6 @@
 import cls from './TodoItem.module.scss'
 import {FC, ReactNode, useState} from "react";
-import { Checkbox } from "antd";
+import { Checkbox, List } from "antd";
 import imgTrash from '@/shared/assets/icons/trash.svg'
 import imgPencil from '@/shared/assets/icons/pensil-paper.svg'
 import {deleteTodo, updateTodo} from "@/entities/Todo/api/api.ts";
@@ -92,7 +92,7 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
     ].join(' ')
 
     return (
-        <div className={todoItemClass}>
+        <List.Item className={todoItemClass}>
             <Checkbox
                 className={cls.checkbox}
                 disabled={isEditing}
@@ -149,7 +149,7 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
                     </Button>
                 </div>
             }
-        </div>
+        </List.Item>
     );
 };
 

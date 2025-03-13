@@ -1,6 +1,6 @@
 import {RouteProps} from "react-router-dom";
-import MainPage from "@/pages/MainPage";
 import UserPage from "@/pages/UserPage";
+import TodoPage from "@/pages/TodoPage";
 
 
 
@@ -16,7 +16,7 @@ export const RoutePath: Record<AppRoutes, string> = {
 
 export const routeConfig: Record<AppRoutes, RouteProps> = {
     [AppRoutes.MAIN] : {
-        element: <MainPage/>,
+        element: <TodoPage/>,
         path: RoutePath.main
     },
     [AppRoutes.USER] : {

@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 1em;
   margin-bottom: 1em;
+  align-items: center;
 }
 
 .form {
@@ -19,8 +20,14 @@
     border-bottom: 1px solid var(--text-color-grey);
     outline: none;
   }
-  .input::placeholder {
-    color: var(--text-color-grey);
-    padding: 1em;
+
+  .button{
+    width: 100px;
+    height: 40px;
+  }
+  .formItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
   }
 }

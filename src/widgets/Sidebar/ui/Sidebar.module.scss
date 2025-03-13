@@ -1,0 +1,15 @@
+.sidebar {
+  background: var(--primary-color-bg-light);
+  border-right: 1px solid var(--text-color-grey);
+  width: 400px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: 3rem;
+  .menu{
+    width: 200px;
+  }
+}

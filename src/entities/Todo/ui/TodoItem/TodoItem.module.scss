@@ -15,6 +15,34 @@
     align-items: end;
   }
 
+  .button{
+    background: var(--primary-color);
+    height: 40px;
+    width: 40px;
+  }
+  .buttonDel{
+    background: var(--error-color);
+    height: 40px;
+    width: 40px;
+  }
+  .buttonEditi {
+    height: 40px;
+    width: 100px;
+    background: var(--primary-color);
+    color: var(--primary-color-bg-light);
+  }
+  .buttonEditiErr {
+    height: 40px;
+    width: 100px;
+    background: var(--error-color);
+    color: var(--primary-color-bg-light);
+  }
+  .checkbox .ant-checkbox-inner{
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+  }
+
   .textarea {
     width: 230px;
     overflow-y: auto;

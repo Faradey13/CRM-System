@@ -1,64 +1,54 @@
-import {ChangeEvent, FC, FormEvent, FormHTMLAttributes, useState} from "react";
-import {addTodo} from "@/entities/Todo/api/api.ts";
-import cls from './AddForm.module.scss'
-import {ErrorComponent} from "../ErrorComponent/ErrorComponent.tsx";
-import {MAX_LENGTH_TASK, MIN_LENGTH_TASK} from "../../model/constants";
-import {Button} from "@/shared/ui/Button/Button.tsx";
+import {FC,FormHTMLAttributes} from "react";
 
+import cls from './AddForm.module.scss'
+import {MAX_LENGTH_TASK, MIN_LENGTH_TASK} from "../../model/constants";
+import {Button, Form, Input} from "antd";
+import {useForm} from "antd/es/form/Form";
+import {addTodo} from "@/entities/Todo/api/api.ts";
 
 interface addForm extends FormHTMLAttributes<HTMLFormElement> {
-    onAdded: () => void;
-
-
+    onAdded: () => Promise<void>;
+}
+interface AddFormValues {
+    addTodo: string;
 }
 
-const AddForm:FC<addForm> = ({onAdded}) => {
+const AddForm: FC<addForm> = ({onAdded}) => {
+    const [form] = useForm()
 
-    const [newTodoValue, setNewTodoValue] = useState<string>('')
-    const [validationError, setValidationError] = useState<string | null>(null)
-
-    const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewTodoValue(e.target.value)
-
-    }
-    const handleSubmit = async (event: FormEvent) => {
-        event.preventDefault()
-        if (newTodoValue.length < MIN_LENGTH_TASK) {
-            setValidationError(`Длинна задачи должна быть больше ${MIN_LENGTH_TASK}`)
-            return;
-        }
-        if (newTodoValue.length > MAX_LENGTH_TASK) {
-            setValidationError(`Длинна задачи должна быть меньше ${MAX_LENGTH_TASK}`)
-            return;
-        }
-        setValidationError(null)
-        await addTodo(newTodoValue)
+    const handleSubmit = async (values:AddFormValues) => {
+        await addTodo(values.addTodo)
         onAdded()
-        setNewTodoValue('')
+        form.resetFields();
 
     }
 
     return (
-        <form className={cls.formContainer} onSubmit={handleSubmit}>
+        <Form form={form} className={cls.formContainer} onFinish={handleSubmit}>
             <section className={cls.form}>
-                <input
-                    onBlur={() => setValidationError(null)}
-                    className={cls.input}
-                    type="text"
-                    value={newTodoValue}
-                    onChange={handleChangeInput}
-                    placeholder='Task To Be Done...'
-                />
+                <Form.Item
+                    className={cls.formItem}
+                    name='addTodo'
+                    rules={[
+                        {required: true, message: 'Введите задачу для добавления'},
+                        {min: MIN_LENGTH_TASK, message: `Длинна задачи должна быть больше ${MIN_LENGTH_TASK}`},
+                        {max: MAX_LENGTH_TASK, message: `Длинна задачи должна быть меньше ${MAX_LENGTH_TASK}`}
+                    ]}
+                >
+                    <Input
+                        className={cls.input}
+                        placeholder='Task To Be Done...'
+                    />
+                </Form.Item>
                 <Button
-                    square={false}
+                    htmlType='submit'
+                    className={cls.button}
 
                 >
                     Add
                 </Button>
             </section>
-
-            <ErrorComponent textError={validationError}/>
-        </form>
+        </Form>
     );
 };
 

@@ -23,6 +23,14 @@ export const TodoPage = () => {
 
     }, [filteredTodo])
 
+    useEffect(() => {
+        const fetchingInterval = setInterval(async () => {
+            console.log("fetching...")
+            await fetchTodos()
+        }, 5000)
+
+        return () => clearInterval(fetchingInterval)
+    }, []);
 
     const fetchTodos = async () => {
         const data = await getTodos(filteredTodo)
@@ -31,6 +39,7 @@ export const TodoPage = () => {
             setTodoInfo(data.info)
         }
     }
+
 
     return (
         <main className={cls.wrapper}>

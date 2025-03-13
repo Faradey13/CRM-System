@@ -1,9 +1,34 @@
-
+import {Link, useLocation} from "react-router-dom";
+import cls from './Sidebar.module.scss'
+import {Menu} from "antd";
+import Sider from "antd/es/layout/Sider";
 
 export const Sidebar = () => {
-    return (
-        <nav>
+    enum PagePath {
+        MAIN = '/',
+        USER = '/user'
+    }
 
-        </nav>
+    const NamePath = {
+        [PagePath.MAIN]: 'Задачи',
+        [PagePath.USER]: 'Личный кабинет',
+    }
+    const location = useLocation()
+    console.log(PagePath.MAIN)
+    return (
+        <Sider className={cls.sidebar}>
+            <Menu className={cls.menu}
+                  items={[
+                      {
+                          key: '1',
+                          label: (
+                              <Link to={location.pathname === PagePath.MAIN ? PagePath.USER : PagePath.MAIN}>
+                                  {location.pathname === PagePath.MAIN ? NamePath[PagePath.USER] : NamePath[PagePath.MAIN]}
+                              </Link>
+                          ),
+                      },
+                  ]}
+            />
+        </Sider>
     );
 };

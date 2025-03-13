@@ -13,7 +13,7 @@ interface AddFormValues {
     addTodo: string;
 }
 
-const AddForm: FC<addForm> = ({onAdded}) => {
+export const AddForm: FC<addForm> = ({onAdded}) => {
     const [form] = useForm()
 
     const handleSubmit = async (values:AddFormValues) => {
@@ -52,4 +52,3 @@ const AddForm: FC<addForm> = ({onAdded}) => {
     );
 };
 
-export default AddForm;

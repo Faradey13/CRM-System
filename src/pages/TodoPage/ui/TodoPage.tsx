@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import {type Todo, TodoFilter, TodoInfo} from "@/entities/Todo/model/types";
 import cls from "./TodoPage.module.scss";
-import AddForm from "@/entities/Todo/ui/AddForm/AddForm.tsx";
-import {ListSwitch} from "@/entities/Todo/ui/ListSwitch/ListSwitch.tsx";
-import TodoList from "@/entities/Todo/ui/TodoList/TodoList.tsx";
 import {getTodos} from "@/entities/Todo/api/api.ts";
+import { AddForm } from "@/entities/Todo/ui/AddForm/AddForm";
+import { ListSwitch } from "@/entities/Todo/ui/ListSwitch/ListSwitch";
+import { TodoList } from "@/entities/Todo/ui/TodoList/TodoList";
 
 
 export const TodoPage = () => {

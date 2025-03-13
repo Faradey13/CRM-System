@@ -9,7 +9,7 @@ interface TodoListProps {
     todos: Todo[] | undefined
 }
 
-const TodoList: FC<TodoListProps> = ({
+export const TodoList: FC<TodoListProps> = ({
                                          onChangeTodo,
                                          todos
                                      }) => {
@@ -32,5 +32,3 @@ const TodoList: FC<TodoListProps> = ({
         );
     }
 ;
-
-export default TodoList;

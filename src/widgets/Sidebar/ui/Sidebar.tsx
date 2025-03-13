@@ -10,8 +10,8 @@ export const Sidebar = () => {
     }
 
     const NamePath = {
-        [PagePath.MAIN]: 'Задачи',
-        [PagePath.USER]: 'Личный кабинет',
+        [PagePath.MAIN]: 'Список задач',
+        [PagePath.USER]: 'Профиль',
     }
     const location = useLocation()
     console.log(PagePath.MAIN)

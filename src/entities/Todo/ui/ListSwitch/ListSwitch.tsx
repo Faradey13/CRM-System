@@ -13,7 +13,6 @@ export const ListSwitch: FC<ListSwitchProps> = ({todoInfo, onFilterChange, filte
 
 
     const handleFilterTodos = (filter: TodoFilter) => {
-        console.log(filter)
         onFilterChange(filter)
     }
 
@@ -36,21 +35,3 @@ export const ListSwitch: FC<ListSwitchProps> = ({todoInfo, onFilterChange, filte
     );
 };
 
-// <span
-//     className={filteredTodo === TodoFilter.ALL ? cls.currentTodo : ''}
-//     onClick={() => handleFilterTodos(TodoFilter.ALL)}
-// >
-//                     {`Все (${todoInfo ? todoInfo.all : 0})`}
-//                 </span>
-// <span
-//     className={filteredTodo === TodoFilter.IN_WORK ? cls.currentTodo : ''}
-//     onClick={() => handleFilterTodos(TodoFilter.IN_WORK)}
-// >
-//                     {`В работе (${todoInfo ? todoInfo.inWork : 0})`}
-//                 </span>
-// <span
-//     className={filteredTodo === TodoFilter.COMPLETED ? cls.currentTodo : ''}
-//     onClick={() => handleFilterTodos(TodoFilter.COMPLETED)}
-// >
-//                     {`Сделано (${todoInfo ? todoInfo.completed : 0})`}
-//                 </span>

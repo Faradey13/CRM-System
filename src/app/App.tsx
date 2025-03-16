@@ -1,14 +1,19 @@
 import AppRoutes from "@/app/providers/routes";
 import Sidebar from "@/widgets/Sidebar";
 import './styles/index.scss'
-import {Layout} from "antd";
+import {Flex, Layout} from "antd";
 
 function App() {
   return (
     <main className={'app'}>
-        <Layout>
-            <AppRoutes/>
-            <Sidebar/>
+        <Layout
+            hasSider={true}
+        >
+            <Flex justify={'center'}>
+                <AppRoutes/>
+                <Sidebar/>
+            </Flex>
+
         </Layout>
     </main>
   )

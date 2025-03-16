@@ -3,6 +3,7 @@ import cls from './Sidebar.module.scss'
 import {Menu} from "antd";
 import Sider from "antd/es/layout/Sider";
 
+
 export const Sidebar = () => {
     enum PagePath {
         MAIN = '/',
@@ -19,7 +20,7 @@ export const Sidebar = () => {
         <Sider className={cls.sidebar}>
             <Menu className={cls.menu}
                   items={pages.map((page) => ({
-                      key: PagePath.MAIN,
+                      key: page.path,
                       label: (
                           <Link to={page.path}>{page.name}</Link>
                       )

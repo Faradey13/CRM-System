@@ -49,10 +49,12 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
     const [form] = useForm()
 
     const handleStartEditTask = () => {
+        form.setFieldsValue({ editTodo: title });
         setIsEditing(true)
     }
 
     const handleEditTask = async (value: EditTodoValue) => {
+        console.log(value)
         await handleEditTodoText(todoId, value.editTodo)
         setIsEditing(false)
     }

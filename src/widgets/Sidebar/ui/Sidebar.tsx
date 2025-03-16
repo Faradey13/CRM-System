@@ -1,4 +1,4 @@
-import {Link, useLocation} from "react-router-dom";
+import {Link} from "react-router-dom";
 import cls from './Sidebar.module.scss'
 import {Menu} from "antd";
 import Sider from "antd/es/layout/Sider";
@@ -9,25 +9,21 @@ export const Sidebar = () => {
         USER = '/user'
     }
 
-    const NamePath = {
-        [PagePath.MAIN]: 'Список задач',
-        [PagePath.USER]: 'Профиль',
-    }
-    const location = useLocation()
-    console.log(PagePath.MAIN)
+    const pages = [
+        { path: PagePath.MAIN, name: 'Список задач' },
+        { path: PagePath.USER, name: 'Профиль' },
+
+    ];
+
     return (
         <Sider className={cls.sidebar}>
             <Menu className={cls.menu}
-                  items={[
-                      {
-                          key: '1',
-                          label: (
-                              <Link to={location.pathname === PagePath.MAIN ? PagePath.USER : PagePath.MAIN}>
-                                  {location.pathname === PagePath.MAIN ? NamePath[PagePath.USER] : NamePath[PagePath.MAIN]}
-                              </Link>
-                          ),
-                      },
-                  ]}
+                  items={pages.map((page) => ({
+                      key: PagePath.MAIN,
+                      label: (
+                          <Link to={page.path}>{page.name}</Link>
+                      )
+                  }))}
             />
         </Sider>
     );

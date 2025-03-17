@@ -1,3 +1,3 @@
-import {Sidebar} from './ui/Sidebar'
+import {MainMenu} from './ui/MainMenu.tsx'
 
-export default Sidebar
+export default MainMenu

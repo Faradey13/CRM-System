@@ -1,13 +1,11 @@
 import cls from './TodoItem.module.scss'
-import {FC, ReactNode, useState} from "react";
-import { Checkbox, List } from "antd";
-import imgTrash from '@/shared/assets/icons/trash.svg'
-import imgPencil from '@/shared/assets/icons/pensil-paper.svg'
+import {FC, ReactNode, useId, useState} from "react";
+import {Checkbox, Input, List} from "antd";
 import {deleteTodo, updateTodo} from "@/entities/Todo/api/api.ts";
 import {MAX_LENGTH_TASK, MIN_LENGTH_TASK} from "@/entities/Todo/model/constants";
 import {Button, Form} from "antd";
-import TextArea from "antd/es/input/TextArea";
 import {useForm} from "antd/es/form/Form";
+import {CheckOutlined, CloseSquareOutlined, DeleteOutlined, FormOutlined} from "@ant-design/icons";
 
 interface ChildrenProps {
     children?: ReactNode;
@@ -45,7 +43,7 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
             await handleDeleteTodo(todoId);
         }, 100);
     };
-
+    const idForm = useId()
     const [form] = useForm()
 
     const handleStartEditTask = () => {
@@ -102,7 +100,7 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
                 checked={isComplete}
             >{!isEditing ? children :
                 <div>
-                    <Form form={form} onFinish={handleEditTask}>
+                    <Form form={form} id={idForm} onFinish={handleEditTask}>
                         <Form.Item
                             initialValue={title}
                             name='editTodo'
@@ -112,7 +110,7 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
                                 {max: MAX_LENGTH_TASK, message: `Длинна задачи должна быть меньше ${MAX_LENGTH_TASK}`}
                             ]}
                         >
-                            <TextArea
+                            <Input
                                 className={cls.textarea}
                                 placeholder="Edit your todo"
                             />
@@ -125,14 +123,14 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
                     className={cls.button}
                     disabled={isDisabled}
                     onClick={handleStartEditTask}
-                    icon={<img src={imgPencil} alt="Edit"/>}
-                />
+
+                ><FormOutlined /></Button>
 
                 <Button
                     className={cls.buttonDel}
                     onClick={handleRemove}
                 >
-                    <img src={imgTrash} alt=""/>
+                    <DeleteOutlined />
                 </Button>
             </div>}
             {isEditing &&
@@ -141,13 +139,14 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
                         className={cls.buttonEditi}
                         onClick={handleSubmit}
                     >
-                        Изменить
+                        <CheckOutlined />
                     </Button>
                     <Button
                         className={cls.buttonEditiErr}
-                        onClick={handleCancelEditing}
+                        htmlType={'submit'}
+                        form={idForm}
                     >
-                        Отменить
+                        <CloseSquareOutlined />
                     </Button>
                 </div>
             }

@@ -1,10 +1,11 @@
-import {FC,FormHTMLAttributes} from "react";
+import {FC, FormHTMLAttributes, memo, useState} from "react";
 
 import cls from './AddForm.module.scss'
 import {MAX_LENGTH_TASK, MIN_LENGTH_TASK} from "../../model/constants";
-import {Button, Form, Input} from "antd";
+import {Button, Form, Input, Spin} from "antd";
 import {useForm} from "antd/es/form/Form";
 import {addTodo} from "@/entities/Todo/api/api.ts";
+
 
 interface addForm extends FormHTMLAttributes<HTMLFormElement> {
     onAdded: () => Promise<void>;
@@ -13,13 +14,27 @@ interface AddFormValues {
     addTodo: string;
 }
 
-export const AddForm: FC<addForm> = ({onAdded}) => {
+export const AddForm: FC<addForm> = memo(({onAdded}) => {
+
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
     const [form] = useForm()
 
     const handleSubmit = async (values:AddFormValues) => {
-        await addTodo(values.addTodo)
-        onAdded()
-        form.resetFields();
+        try {
+            setIsLoading(true)
+            setTimeout(async() => { //таймаут для наглядности
+                await addTodo(values.addTodo)
+                await onAdded()
+                form.resetFields();
+                setIsLoading(false)
+            },1000)
+
+        } catch {
+            alert('Ошибка добавления, попробуйте позже')
+        }
+
+
 
     }
 
@@ -41,6 +56,7 @@ export const AddForm: FC<addForm> = ({onAdded}) => {
                     />
                 </Form.Item>
                 <Button
+                    disabled={isLoading}
                     htmlType='submit'
                     className={cls.button}
 
@@ -48,7 +64,8 @@ export const AddForm: FC<addForm> = ({onAdded}) => {
                     Add
                 </Button>
             </section>
+            {isLoading && <Spin/>}
         </Form>
     );
-};
+});
 

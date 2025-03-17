@@ -1,4 +1,4 @@
-import {memo, useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {type Todo, TodoFilter, TodoInfo} from "@/entities/Todo/model/types";
 import cls from "./TodoPage.module.scss";
 import {getTodos} from "@/entities/Todo/api/api.ts";
@@ -7,7 +7,7 @@ import { ListSwitch } from "@/entities/Todo/ui/ListSwitch/ListSwitch";
 import { TodoList } from "@/entities/Todo/ui/TodoList/TodoList";
 
 
-export const TodoPage = memo(() => {
+export const TodoPage = () => {
 
     const [filteredTodo, setFilteredTodo] = useState<TodoFilter>(TodoFilter.ALL)
     const [todoInfo, setTodoInfo] = useState<TodoInfo>()
@@ -58,4 +58,4 @@ export const TodoPage = memo(() => {
             />
         </main>
     );
-});
+};

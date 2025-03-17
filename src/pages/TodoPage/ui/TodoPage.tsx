@@ -13,6 +13,13 @@ export const TodoPage = () => {
     const [todoInfo, setTodoInfo] = useState<TodoInfo>()
     const [todos, setTodos] = useState<Todo[]>()
 
+    const fetchTodos = useCallback(async () => {
+        const data = await getTodos(filteredTodo)
+        if (data) {
+            setTodos(data.data)
+            setTodoInfo(data.info)
+        }
+    },[filteredTodo])
 
     useEffect(() => {
         try {
@@ -21,24 +28,18 @@ export const TodoPage = () => {
             alert('Ошибка загрузки всех задач')
         }
 
-    }, [filteredTodo])
+    }, [filteredTodo, fetchTodos])
 
     useEffect(() => {
         const fetchingInterval = setInterval(async () => {
-            console.log(filteredTodo)
+            console.log(todos)
             await fetchTodos()
         }, 5000)
 
         return () => clearInterval(fetchingInterval)
     }, [filteredTodo]);
 
-    const fetchTodos = useCallback(async () => {
-            const data = await getTodos(filteredTodo)
-            if (data) {
-                setTodos(data.data)
-                setTodoInfo(data.info)
-            }
-    },[filteredTodo])
+
 
 
 

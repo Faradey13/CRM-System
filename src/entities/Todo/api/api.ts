@@ -9,9 +9,10 @@ import {api} from "@/shared/config/axios.ts";
 
 export const getTodos = async (type: TodoFilter): Promise<MetaResponse<Todo, TodoInfo>> => {
     try {
-        const response = await api.get<MetaResponse<Todo, TodoInfo>>(`/todos?filter=`, {
-            params: {type}
+        const response = await api.get<MetaResponse<Todo, TodoInfo>>(`/todos`, {
+            params: {filter: type}
         })
+        console.log(response.data, type)
         return  response.data;
     } catch (error) {
         console.error(error, 'ошибка получения todo')

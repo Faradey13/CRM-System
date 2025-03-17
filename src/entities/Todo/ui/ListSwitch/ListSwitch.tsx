@@ -1,6 +1,6 @@
 import cls from "./ListSwitch.module.scss";
 import {TodoFilter, TodoInfo} from "../../model/types";
-import {FC} from "react";
+import {FC, memo} from "react";
 import {Segmented} from "antd";
 
 interface ListSwitchProps {
@@ -9,7 +9,7 @@ interface ListSwitchProps {
     filteredTodo: TodoFilter
 }
 
-export const ListSwitch: FC<ListSwitchProps> = ({todoInfo, onFilterChange, filteredTodo}) => {
+export const ListSwitch: FC<ListSwitchProps> = memo(({todoInfo, onFilterChange, filteredTodo}) => {
 
 
     const handleFilterTodos = (filter: TodoFilter) => {
@@ -33,5 +33,5 @@ export const ListSwitch: FC<ListSwitchProps> = ({todoInfo, onFilterChange, filte
 
 
     );
-};
+});
 

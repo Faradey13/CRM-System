@@ -2,7 +2,6 @@ import cls from './TodoItem.module.scss'
 import {FC, ReactNode, useState} from "react";
 import {Button, Checkbox, List} from "antd";
 import {deleteTodo, updateTodo} from "@/entities/Todo/api/api.ts";
-import {useForm} from "antd/es/form/Form";
 import {DeleteOutlined, FormOutlined} from "@ant-design/icons";
 import {TodoForm} from "@/entities/Todo/ui/TodoForm/TodoForm.tsx";
 import {FormType, FormValues} from "@/entities/Todo/model/types";
@@ -43,12 +42,12 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
         }, 100);
     };
 
-    const [form] = useForm()
 
     const handleStartEditTask = () => {
-        form.setFieldsValue({ editTodo: title });
-        setIsEditing(true)
+        setIsEditing(true);
     }
+
+
 
     const handleEditTask = async (value: FormValues) => {
         await handleEditTodoText(value)
@@ -115,6 +114,7 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
                     isLoading={isLoading}
                     handleCloseForm={handleCancelEditing}
                     onSubmit={handleEditTask}
+                    initialTitle={isEditing ? title : undefined}
                 />
             }
             {!isEditing && <div className={cls.buttons}>

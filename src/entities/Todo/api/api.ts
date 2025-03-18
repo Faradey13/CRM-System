@@ -12,7 +12,6 @@ export const getTodos = async (type: TodoFilter): Promise<MetaResponse<Todo, Tod
         const response = await api.get<MetaResponse<Todo, TodoInfo>>(`/todos`, {
             params: {filter: type}
         })
-        console.log(response.data, type)
         return  response.data;
     } catch (error) {
         console.error(error, 'ошибка получения todo')

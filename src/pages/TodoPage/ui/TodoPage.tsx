@@ -39,7 +39,6 @@ export const TodoPage = () => {
 
     useEffect(() => {
         const fetchingInterval = setInterval(async () => {
-            console.log(todos)
             await fetchTodos()
         }, 5000)
 

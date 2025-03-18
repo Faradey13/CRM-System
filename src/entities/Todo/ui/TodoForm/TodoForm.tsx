@@ -1,4 +1,4 @@
-import {FC,  memo} from "react";
+import {FC, memo, useEffect} from "react";
 import cls from './TodoForm.module.scss'
 import {MAX_LENGTH_TASK, MIN_LENGTH_TASK} from "../../model/constants";
 import {Button, Form, Input} from "antd";
@@ -14,20 +14,24 @@ interface todoFormProps {
     isLoading: boolean;
     onSubmit: (values: FormValues, id?:number) =>Promise<void>;
     id? : number
+    initialTitle?: string;
 }
 
 
-export const TodoForm: FC<todoFormProps> = memo(({formType, handleCloseForm,  isLoading, onSubmit, id}) => {
+export const TodoForm: FC<todoFormProps> = memo(({formType, handleCloseForm,  isLoading, onSubmit, initialTitle}) => {
 
     const [form] = useForm()
     const handleSubmit = (values: FormValues) => {
-        if(id){
-            onSubmit(values, id)
-        } else {
-            onSubmit(values)
+        onSubmit(values);
+        form.resetFields();
+    };
+
+    useEffect(() => {
+        if (initialTitle) {
+            form.setFieldsValue({ formValue: initialTitle });
         }
-        form.resetFields()
-    }
+    }, [initialTitle, form]);
+
     return (
         <Form form={form} className={cls.formContainer} onFinish={handleSubmit}>
             <section className={cls.form}>
@@ -62,6 +66,7 @@ export const TodoForm: FC<todoFormProps> = memo(({formType, handleCloseForm,  is
                             className={cls.buttonEditi}
                             disabled={isLoading}
                             htmlType='submit'
+                            loading={isLoading}
                             icon={<CheckOutlined/>}
                         />
                         <Button

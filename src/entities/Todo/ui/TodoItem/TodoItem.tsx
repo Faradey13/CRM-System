@@ -1,11 +1,11 @@
 import cls from './TodoItem.module.scss'
-import {FC, ReactNode, useId, useState} from "react";
-import {Checkbox, Input, List} from "antd";
+import {FC, ReactNode, useState} from "react";
+import {Button, Checkbox, List} from "antd";
 import {deleteTodo, updateTodo} from "@/entities/Todo/api/api.ts";
-import {MAX_LENGTH_TASK, MIN_LENGTH_TASK} from "@/entities/Todo/model/constants";
-import {Button, Form} from "antd";
 import {useForm} from "antd/es/form/Form";
-import {CheckOutlined, CloseSquareOutlined, DeleteOutlined, FormOutlined} from "@ant-design/icons";
+import {DeleteOutlined, FormOutlined} from "@ant-design/icons";
+import {TodoForm} from "@/entities/Todo/ui/TodoForm/TodoForm.tsx";
+import {FormType, FormValues} from "@/entities/Todo/model/types";
 
 interface ChildrenProps {
     children?: ReactNode;
@@ -19,9 +19,7 @@ interface CheckboxComponentProps extends ChildrenProps {
     title: string
 }
 
-interface EditTodoValue {
-    editTodo: string
-}
+
 
 export const TodoItem: FC<CheckboxComponentProps> = ({
                                                          children,
@@ -36,6 +34,7 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
 
     const [isEditing, setIsEditing] = useState<boolean>(false)
     const [isRemoving, setIsRemoving] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const handleRemove = () => {
         setIsRemoving(true);
@@ -43,7 +42,7 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
             await handleDeleteTodo(todoId);
         }, 100);
     };
-    const idForm = useId()
+
     const [form] = useForm()
 
     const handleStartEditTask = () => {
@@ -51,9 +50,8 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
         setIsEditing(true)
     }
 
-    const handleEditTask = async (value: EditTodoValue) => {
-        console.log(value)
-        await handleEditTodoText(todoId, value.editTodo)
+    const handleEditTask = async (value: FormValues) => {
+        await handleEditTodoText(value)
         setIsEditing(false)
     }
 
@@ -62,17 +60,31 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
     }
 
     const handleDeleteTodo = async (id: number) => {
-        await deleteTodo(id)
-        onChangeTodo();
-        alert('сделано хозяин')
+        try {
+            setIsLoading(true)
+            await deleteTodo(id)
+            onChangeTodo();
+        } catch {
+            alert('хозяин нам пизда, ничего не работает')
+        }finally {
+            setIsLoading(false)
+        }
     }
 
-    const handleEditTodoText = async (id: number, text: string) => {
-        console.log(text, 'text')
-        await updateTodo(id, {title: text})
-        onChangeTodo();
-        handleCancelEditing()
-    }
+    const handleEditTodoText = async (values: FormValues) => {
+        try {
+            setIsLoading(true);
+            if (todoId) {
+                await updateTodo(todoId, { title: values.formValue });
+                onChangeTodo();
+                handleCancelEditing();
+            }
+        } catch {
+            alert('не удалось обновить задачу');
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const handleCompleteTodo = async (id: number, status: boolean) => {
         await updateTodo(id, {isDone: !status})
@@ -80,9 +92,6 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
 
     }
 
-    const handleSubmit = () => {
-        form.submit()
-    }
 
     const todoItemClass = [
         cls.todoItem,
@@ -93,63 +102,35 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
 
     return (
         <List.Item className={todoItemClass}>
-            <Checkbox
+            {!isEditing && <Checkbox
                 className={cls.checkbox}
                 disabled={isEditing}
                 onChange={() => handleCompleteTodo(todoId, isComplete)}
                 checked={isComplete}
-            >{!isEditing ? children :
-                <div>
-                    <Form form={form} id={idForm} onFinish={handleEditTask}>
-                        <Form.Item
-                            initialValue={title}
-                            name='editTodo'
-                            rules={[
-                                {required: true, message: 'Задача не может быть пустой'},
-                                {min: MIN_LENGTH_TASK, message: `Длинна задачи должна быть больше ${MIN_LENGTH_TASK}`},
-                                {max: MAX_LENGTH_TASK, message: `Длинна задачи должна быть меньше ${MAX_LENGTH_TASK}`}
-                            ]}
-                        >
-                            <Input
-                                className={cls.textarea}
-                                placeholder="Edit your todo"
-                            />
-                        </Form.Item>
-                    </Form>
-                </div>
-            }</Checkbox>
+                children={children}
+            />}
+            {isEditing &&
+                <TodoForm
+                    formType={FormType.UPDATE}
+                    isLoading={isLoading}
+                    handleCloseForm={handleCancelEditing}
+                    onSubmit={handleEditTask}
+                />
+            }
             {!isEditing && <div className={cls.buttons}>
                 <Button
                     className={cls.button}
                     disabled={isDisabled}
                     onClick={handleStartEditTask}
-
-                ><FormOutlined /></Button>
-
+                    icon={<FormOutlined />}
+                />
                 <Button
                     className={cls.buttonDel}
                     onClick={handleRemove}
-                >
-                    <DeleteOutlined />
-                </Button>
+                    icon={<DeleteOutlined />}
+                    loading={isLoading}
+                />
             </div>}
-            {isEditing &&
-                <div className={`${cls.buttons} ${cls.editingButtons}`}>
-                    <Button
-                        className={cls.buttonEditi}
-                        onClick={handleSubmit}
-                    >
-                        <CheckOutlined />
-                    </Button>
-                    <Button
-                        className={cls.buttonEditiErr}
-                        htmlType={'submit'}
-                        form={idForm}
-                    >
-                        <CloseSquareOutlined />
-                    </Button>
-                </div>
-            }
         </List.Item>
     );
 };

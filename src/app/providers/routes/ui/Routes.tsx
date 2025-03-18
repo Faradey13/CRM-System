@@ -4,7 +4,7 @@ import TodoPage from "@/pages/TodoPage";
 import AuthPage from "@/pages/AuthPage/ui/AuthPage.tsx";
 import {Flex, Layout} from "antd";
 
-import {AppRoutes, RoutePath} from "@/app/providers/routes/model/constants";
+import {RoutePath} from "@/app/providers/routes/model/constants";
 import {MainMenu} from "@/widgets/Sidebar/ui/MainMenu.tsx";
 
 
@@ -23,15 +23,15 @@ export const router = createBrowserRouter([
         ),
         children: [
             {
-                path: RoutePath[AppRoutes.MAIN],
+                path: RoutePath.MAIN,
                 element: <TodoPage />,
             },
             {
-                path: RoutePath[AppRoutes.USER],
+                path: RoutePath.USER,
                 element: <UserPage />,
             },
             {
-                path: RoutePath[AppRoutes.AUTH],
+                path: RoutePath.AUTH,
                 element: <AuthPage />,
             },
         ],

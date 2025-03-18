@@ -1,10 +1,16 @@
 import {useCallback, useEffect, useState} from "react";
-import {type Todo, TodoFilter, TodoInfo} from "@/entities/Todo/model/types";
+import {
+    FormType,
+    FormValues,
+    type Todo,
+    TodoFilter,
+    TodoInfo
+} from "@/entities/Todo/model/types";
 import cls from "./TodoPage.module.scss";
-import {getTodos} from "@/entities/Todo/api/api.ts";
-import { AddForm } from "@/entities/Todo/ui/AddForm/AddForm";
-import { ListSwitch } from "@/entities/Todo/ui/ListSwitch/ListSwitch";
-import { TodoList } from "@/entities/Todo/ui/TodoList/TodoList";
+import {addTodo, getTodos} from "@/entities/Todo/api/api.ts";
+import {TodoForm} from "@/entities/Todo/ui/TodoForm/TodoForm.tsx";
+import {ListSwitch} from "@/entities/Todo/ui/ListSwitch/ListSwitch";
+import {TodoList} from "@/entities/Todo/ui/TodoList/TodoList";
 
 
 export const TodoPage = () => {
@@ -12,6 +18,7 @@ export const TodoPage = () => {
     const [filteredTodo, setFilteredTodo] = useState<TodoFilter>(TodoFilter.ALL)
     const [todoInfo, setTodoInfo] = useState<TodoInfo>()
     const [todos, setTodos] = useState<Todo[]>()
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const fetchTodos = useCallback(async () => {
         const data = await getTodos(filteredTodo)
@@ -41,12 +48,28 @@ export const TodoPage = () => {
 
 
 
+    const handleSubmit = async (values:FormValues) => {
+        try {
+            setIsLoading(true)
+            await addTodo(values.formValue)
+            await fetchTodos()
+        } catch (e) {
+            alert(e)
+        }  finally {
+        setIsLoading(false);
+    }
+    }
 
 
     return (
         <main className={cls.wrapper}>
             <header className={cls.todoHeader}>
-                <AddForm onAdded={fetchTodos}/>
+               <TodoForm
+                   onSubmit={handleSubmit}
+                   formType={FormType.ADD}
+                   isLoading={isLoading}
+
+               />
             </header>
             <ListSwitch
                 todoInfo={todoInfo}

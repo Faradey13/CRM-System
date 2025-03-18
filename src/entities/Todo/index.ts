@@ -1,10 +1,10 @@
-import {AddForm} from '@/entities/Todo/ui/TodoForm/TodoForm.tsx'
+import {TodoForm} from './ui/TodoForm/TodoForm.tsx'
 import {TodoList} from './ui/TodoList/TodoList'
 import {ListSwitch} from './ui/ListSwitch/ListSwitch';
 
 
 export default {
-    AddForm,
+    TodoForm,
     TodoList,
     ListSwitch
 }

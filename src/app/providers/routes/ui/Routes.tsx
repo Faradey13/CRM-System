@@ -1,7 +1,6 @@
 import {createBrowserRouter, Outlet} from "react-router-dom";
 import UserPage from "@/pages/UserPage";
 import TodoPage from "@/pages/TodoPage";
-import AuthPage from "@/pages/AuthPage/ui/AuthPage.tsx";
 import {Flex, Layout} from "antd";
 
 import {RoutePath} from "@/app/providers/routes/model/constants";
@@ -29,10 +28,6 @@ export const router = createBrowserRouter([
             {
                 path: RoutePath.USER,
                 element: <UserPage />,
-            },
-            {
-                path: RoutePath.AUTH,
-                element: <AuthPage />,
             },
         ],
     },

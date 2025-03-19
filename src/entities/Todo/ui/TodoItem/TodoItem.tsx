@@ -3,8 +3,7 @@ import {FC, ReactNode, useState} from "react";
 import {Button, Checkbox, List} from "antd";
 import {deleteTodo, updateTodo} from "@/entities/Todo/api/api.ts";
 import {DeleteOutlined, FormOutlined} from "@ant-design/icons";
-import {TodoForm} from "@/entities/Todo/ui/TodoForm/TodoForm.tsx";
-import {FormType, FormValues} from "@/entities/Todo/model/types";
+import EditTodo from "@/entities/Todo/ui/EditTodo/ui/EditTodo.tsx";
 
 interface ChildrenProps {
     children?: ReactNode;
@@ -14,7 +13,7 @@ interface CheckboxComponentProps extends ChildrenProps {
     isComplete: boolean
     isDisabled: boolean
     todoId: number
-    onChangeTodo: () => void
+    onChangeTodo: () => Promise<void>
     title: string
 }
 
@@ -49,11 +48,6 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
 
 
 
-    const handleEditTask = async (value: FormValues) => {
-        await handleEditTodoText(value)
-        setIsEditing(false)
-    }
-
     const handleCancelEditing = () => {
         setIsEditing(false)
     }
@@ -70,20 +64,6 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
         }
     }
 
-    const handleEditTodoText = async (values: FormValues) => {
-        try {
-            setIsLoading(true);
-            if (todoId) {
-                await updateTodo(todoId, { title: values.formValue });
-                onChangeTodo();
-                handleCancelEditing();
-            }
-        } catch {
-            alert('не удалось обновить задачу');
-        } finally {
-            setIsLoading(false);
-        }
-    };
 
     const handleCompleteTodo = async (id: number, status: boolean) => {
         await updateTodo(id, {isDone: !status})
@@ -109,12 +89,11 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
                 children={children}
             />}
             {isEditing &&
-                <TodoForm
-                    formType={FormType.UPDATE}
-                    isLoading={isLoading}
-                    handleCloseForm={handleCancelEditing}
-                    onSubmit={handleEditTask}
-                    initialTitle={isEditing ? title : undefined}
+                <EditTodo
+                    onChangeTodo={onChangeTodo}
+                    todoId={todoId}
+                    initialTitle={title}
+                    onStopEditing={handleCancelEditing}
                 />
             }
             {!isEditing && <div className={cls.buttons}>

@@ -5,7 +5,7 @@ import {type Todo} from '../../model/types'
 import {TodoItem} from "../TodoItem/TodoItem.tsx";
 
 interface TodoListProps {
-    onChangeTodo: () => void;
+    onChangeTodo: () => Promise<void>;
     todos: Todo[] | undefined
 }
 

@@ -1,39 +1,35 @@
-import {FC, memo, useEffect} from "react";
+import {FC, memo} from "react";
 import cls from './TodoForm.module.scss'
 import {MAX_LENGTH_TASK, MIN_LENGTH_TASK} from "../../model/constants";
-import {Button, Form, Input} from "antd";
-import {useForm} from "antd/es/form/Form";
+import {Form, FormInstance, Input} from "antd";
+import {FormValues} from "@/entities/Todo/model/types";
 
-import {FormType, FormValues} from "@/entities/Todo/model/types";
-import {CheckOutlined, CloseSquareOutlined} from "@ant-design/icons";
 
 
 interface todoFormProps {
-    formType: FormType;
-    handleCloseForm?: () => void;
-    isLoading: boolean;
-    onSubmit: (values: FormValues, id?:number) =>Promise<void>;
-    id? : number
+    onSubmit: (values: FormValues, id?: number) => Promise<void>;
     initialTitle?: string;
+    form: FormInstance<FormValues>;
+    formId: string;
 }
 
 
-export const TodoForm: FC<todoFormProps> = memo(({formType, handleCloseForm,  isLoading, onSubmit, initialTitle}) => {
-
-    const [form] = useForm()
+export const TodoForm: FC<todoFormProps> = memo(({onSubmit, initialTitle, form, formId}) => {
     const handleSubmit = (values: FormValues) => {
         onSubmit(values);
         form.resetFields();
     };
-
-    useEffect(() => {
-        if (initialTitle) {
-            form.setFieldsValue({ formValue: initialTitle });
-        }
-    }, [initialTitle, form]);
+    const initialValues: FormValues = {
+        formValue: initialTitle || '',
+    };
 
     return (
-        <Form form={form} className={cls.formContainer} onFinish={handleSubmit}>
+        <Form
+            id={formId}
+            className={cls.formContainer}
+            onFinish={handleSubmit}
+            initialValues={initialTitle ? initialValues : undefined}
+        >
             <section className={cls.form}>
                 <Form.Item
                     className={cls.formItem}
@@ -45,37 +41,11 @@ export const TodoForm: FC<todoFormProps> = memo(({formType, handleCloseForm,  is
                     ]}
                 >
                     <Input
-                        className={FormType.ADD ? cls.input : cls.inputEdit}
+                        className={cls.input}
                         placeholder='Task To Be Done...'
                     />
                 </Form.Item>
-                {formType === FormType.ADD &&
-                    <Button
-                        disabled={isLoading}
-                        htmlType='submit'
-                        className={cls.button}
-                        loading={isLoading}
 
-                    >
-                        Add
-                    </Button>}
-                {
-                    formType === FormType.UPDATE &&
-                    <div className={`${cls.buttons} ${cls.editingButtons}`}>
-                        <Button
-                            className={cls.buttonEditi}
-                            disabled={isLoading}
-                            htmlType='submit'
-                            loading={isLoading}
-                            icon={<CheckOutlined/>}
-                        />
-                        <Button
-                            className={cls.buttonEditiErr}
-                            onClick={handleCloseForm}
-                            icon={<CloseSquareOutlined/>}
-                        />
-                    </div>
-                }
             </section>
         </Form>
     );

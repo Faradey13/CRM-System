@@ -1,0 +1,53 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 1em;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: -10px;
+  gap: 1em;
+  justify-content: space-between;
+
+  .input {
+    width: 250px;
+    height: 40px;
+    border: none;
+    background: none;
+    border-bottom: 1px solid var(--text-color-grey);
+    outline: none;
+  }
+  .inputEdit {
+    width: 2000px;
+  }
+
+  .button{
+    width: 100px;
+    height: 40px;
+  }
+  .formItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+  }
+  .editing{
+    padding-left: 30px;
+  }
+  .buttonEditi {
+    height: 40px;
+    width: 100px;
+    background: var(--primary-color);
+    color: var(--primary-color-bg-light);
+  }
+  .buttonEditiErr {
+    height: 40px;
+    width: 100px;
+    background: var(--error-color);
+    color: var(--primary-color-bg-light);
+  }
+}

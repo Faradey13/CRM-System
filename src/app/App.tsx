@@ -1,14 +1,10 @@
-import TodoPage from "@/pages/TodoPage"
-
+import {RouterProvider} from "react-router-dom";
+import {router} from "@/app/providers/routes/ui/Routes.tsx";
 
 
 function App() {
-
-  return (
-    <>
-        <TodoPage/>
-    </>
-  )
+    return <RouterProvider router={router}/>
 }
 
 export default App
+

@@ -29,3 +29,17 @@ export enum TodoFilter  {
     COMPLETED = 'completed',
     IN_WORK = 'inWork',
 }
+
+export enum FormType {
+    ADD = 'add',
+    UPDATE = 'update',
+}
+
+export interface FormValues {
+    formValue: string;
+}
+
+export interface SubmitFormProps {
+    values:FormValues;
+    id?: number;
+}

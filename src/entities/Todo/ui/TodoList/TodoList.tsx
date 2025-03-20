@@ -5,11 +5,11 @@ import {type Todo} from '../../model/types'
 import {TodoItem} from "../TodoItem/TodoItem.tsx";
 
 interface TodoListProps {
-    onChangeTodo: () => void;
+    onChangeTodo: () => Promise<void>;
     todos: Todo[] | undefined
 }
 
-const TodoList: FC<TodoListProps> = ({
+export const TodoList: FC<TodoListProps> = ({
                                          onChangeTodo,
                                          todos
                                      }) => {
@@ -32,5 +32,3 @@ const TodoList: FC<TodoListProps> = ({
         );
     }
 ;
-
-export default TodoList;

@@ -1,65 +1,46 @@
-import {useCallback, useEffect, useState} from "react";
+import {useState} from "react";
 import {
 
-    type Todo,
     TodoFilter,
-    TodoInfo
 } from "@/entities/Todo/model/types";
 import cls from "./TodoPage.module.scss";
-import {getTodos} from "@/entities/Todo/api/api.ts";
 import {ListSwitch} from "@/entities/Todo/ui/ListSwitch/ListSwitch";
 import {TodoList} from "@/entities/Todo/ui/TodoList/TodoList";
 import AddTodo from "@/entities/Todo/ui/AddTodo/ui/AddTodo.tsx";
+import {todosApi} from "@/entities/Todo/api/api.ts";
 
 
 export const TodoPage = () => {
 
+
+
     const [filteredTodo, setFilteredTodo] = useState<TodoFilter>(TodoFilter.ALL)
-    const [todoInfo, setTodoInfo] = useState<TodoInfo>()
-    const [todos, setTodos] = useState<Todo[]>()
-
-
-    const fetchTodos = useCallback(async () => {
-        const data = await getTodos(filteredTodo)
-        if (data) {
-            setTodos(data.data)
-            setTodoInfo(data.info)
+    const {data} = todosApi.useGetTodosQuery(filteredTodo)
+    const currentTodo = data?.data.filter((todo) => {
+        if (filteredTodo === TodoFilter.ALL) {
+            return true
         }
-    },[filteredTodo])
-
-    useEffect(() => {
-        try {
-            fetchTodos()
-        } catch {
-            alert('Ошибка загрузки всех задач')
+        if (filteredTodo === TodoFilter.COMPLETED) {
+            return todo.isDone
         }
-
-    }, [filteredTodo, fetchTodos])
-
-    useEffect(() => {
-        const fetchingInterval = setInterval(async () => {
-            await fetchTodos()
-        }, 5000)
-
-        return () => clearInterval(fetchingInterval)
-    }, [filteredTodo]);
-
-
+        if (filteredTodo === TodoFilter.IN_WORK) {
+            return !todo.isDone
+        }
+    })
 
 
     return (
         <main className={cls.wrapper}>
             <header className={cls.todoHeader}>
-                <AddTodo onAdded={fetchTodos}/>
+                <AddTodo />
             </header>
             <ListSwitch
-                todoInfo={todoInfo}
+                todoInfo={data?.info}
                 onFilterChange={setFilteredTodo}
                 filteredTodo={filteredTodo}
             />
             <TodoList
-                onChangeTodo={fetchTodos}
-                todos={todos}
+                todos={currentTodo}
             />
         </main>
     );

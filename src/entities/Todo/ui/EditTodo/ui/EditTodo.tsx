@@ -1,36 +1,32 @@
 import {Button, Flex, Form} from "antd";
 import {TodoForm} from "@/entities/Todo/ui/TodoForm/TodoForm.tsx";
 import {CheckOutlined, CloseSquareOutlined} from "@ant-design/icons";
-import {FC, useId, useState} from "react";
+import {FC, useId} from "react";
 import {FormValues} from "@/entities/Todo/model/types";
-import {updateTodo} from "@/entities/Todo/api/api.ts";
+import {todosApi} from "@/entities/Todo/api/api.ts";
+
 
 
 interface EditTodoProps {
     initialTitle: string;
     onStopEditing: () => void;
     todoId: number;
-    onChangeTodo: () => Promise<void>
 }
 
-const EditTodo:FC<EditTodoProps> = ({initialTitle, onStopEditing, todoId, onChangeTodo}) => {
+const EditTodo:FC<EditTodoProps> = ({initialTitle, onStopEditing, todoId}) => {
 
+    const [updateTodo,{isLoading}] = todosApi.useUpdateTodoMutation()
     const [form] = Form.useForm();
-    const [isLoading, setIsLoading] = useState<boolean>(false)
     const formId = useId()
 
     const handleEditTodoText = async (values: FormValues) => {
         try {
-            setIsLoading(true);
             if (todoId) {
-                await updateTodo(todoId, { title: values.formValue });
-                await onChangeTodo();
+                await updateTodo([todoId, { title: values.formValue }]);
                 onStopEditing();
             }
         } catch {
             alert('не удалось обновить задачу');
-        } finally {
-            setIsLoading(false);
         }
     };
 

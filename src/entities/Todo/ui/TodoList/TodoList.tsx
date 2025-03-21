@@ -5,12 +5,11 @@ import {type Todo} from '../../model/types'
 import {TodoItem} from "../TodoItem/TodoItem.tsx";
 
 interface TodoListProps {
-    onChangeTodo: () => Promise<void>;
     todos: Todo[] | undefined
 }
 
 export const TodoList: FC<TodoListProps> = ({
-                                         onChangeTodo,
+
                                          todos
                                      }) => {
 
@@ -22,7 +21,6 @@ export const TodoList: FC<TodoListProps> = ({
                         key={`${todo.id}-${todo.isDone}`}
                         isComplete={todo.isDone}
                         todoId={todo.id}
-                        onChangeTodo={onChangeTodo}
                         title={todo.title}
                     >
                         <span>{todo.title}</span>

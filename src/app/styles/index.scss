@@ -15,8 +15,9 @@ body {
   padding: 20px;
 }
 
-.app {
+.App {
   display: flex;
-  min-height: 100vh;
+  min-width: 1920px;
+  min-height: 100%;
   position: relative;
 }

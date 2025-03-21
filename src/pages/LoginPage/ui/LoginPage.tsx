@@ -59,7 +59,6 @@ const LoginPage = () => {
             navigate(RoutePath.MAIN)
         }
     }
-
     const showErrorMessage = async() => {
         if (errorLoginMessage) {
             console.log(errorLoginMessage)

@@ -15,7 +15,9 @@ export const TodoPage = () => {
 
 
     const [filteredTodo, setFilteredTodo] = useState<TodoFilter>(TodoFilter.ALL)
-    const {data} = todosApi.useGetTodosQuery(filteredTodo)
+    const {data, } = todosApi.useGetTodosQuery(filteredTodo, {
+        pollingInterval: 5000,
+    })
     const currentTodo = data?.data.filter((todo) => {
         if (filteredTodo === TodoFilter.ALL) {
             return true

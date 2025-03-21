@@ -9,6 +9,7 @@ import {AuthData} from "@/features/Authentication/model/types";
 import {FC} from "react";
 import {RoutePath} from "@/app/providers/routes/model/constants";
 import {useNavigate} from "react-router-dom";
+import loginIcon from '@/shared/assets/icons/loginIcon.svg'
 
 interface LoginFormProps {
     isLoading: boolean;
@@ -38,7 +39,7 @@ export const LoginForm:FC<LoginFormProps> = ({isLoading,onSubmit,}) => {
                 left: -120,
                 marginTop: 300
             }} gap={20} vertical justify="space-between">
-                <img src="/src/shared/assets/icons/loginIcon.svg" alt="" width="100" height="100"/>
+                <img src={loginIcon} alt="" width="100" height="100"/>
 
                 <h1>Login to your Account</h1>
                 <Form<AuthData>

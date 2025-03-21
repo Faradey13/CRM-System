@@ -11,7 +11,7 @@ import {
 } from "@/features/Authentication/model/constants";
 import {useNavigate} from "react-router-dom";
 import {RoutePath} from "@/app/providers/routes/model/constants";
-
+import loginIcon from '@/shared/assets/icons/loginIcon.svg'
 
 
 
@@ -46,7 +46,7 @@ export const RegistrationForm:FC<RegistrationFormProps> = ({onSubmit, isLoading}
                 left: -120,
                 marginTop: 20
             }} gap={20} vertical justify="space-between">
-                <img src="/src/shared/assets/icons/loginIcon.svg" alt="" width="100" height="100"/>
+                <img src={loginIcon} alt="" width="100" height="100"/>
 
                 <h1>Register your Account</h1>
 

@@ -1,10 +1,7 @@
-import {createBrowserRouter, Outlet} from "react-router-dom";
+import {createBrowserRouter} from "react-router-dom";
 import UserPage from "@/pages/UserPage";
 import TodoPage from "@/pages/TodoPage";
-import {Flex, Layout} from "antd";
-
 import {RoutePath} from "@/app/providers/routes/model/constants";
-import {MainMenu} from "@/widgets/Sidebar/ui/MainMenu.tsx";
 import ProtectedRoutes from "@/app/providers/routes/ui/ProtectedRoutes.tsx";
 import NotFoundPage from "@/pages/NotFoundPage";
 import LoginPage from "@/pages/LoginPage";
@@ -13,42 +10,26 @@ import RegistrationPage from "@/pages/RegistrationPage";
 import AuthPage from "@/pages/AuthPage";
 
 
-
-
 export const router = createBrowserRouter([
     {
-        element: <App/>,
+        element: <App />,
         children: [
             {
                 element: <ProtectedRoutes />,
                 children: [
                     {
-                        element: (
-                            <main className={'app'}>
-                                <Layout hasSider={true}>
-                                    <Flex justify={'center'}>
-                                        <MainMenu />
-                                        <Outlet />
-                                    </Flex>
-                                </Layout>
-                            </main>
-                        ),
-                        children: [
-                            {
-                                path: RoutePath.MAIN,
-                                element: <TodoPage />,
-                            },
-                            {
-                                path: RoutePath.USER,
-                                element: <UserPage />,
-                            },
-                        ],
+                        path: RoutePath.MAIN,
+                        element: <TodoPage />,
+                    },
+                    {
+                        path: RoutePath.USER,
+                        element: <UserPage />,
                     },
                 ],
             },
             {
                 path: RoutePath.AUTH,
-                element: <AuthPage/>,
+                element: <AuthPage />,
                 children: [
                     {
                         index: true,
@@ -60,8 +41,8 @@ export const router = createBrowserRouter([
                     },
                     {
                         path: RoutePath.REGISTER,
-                        element: <RegistrationPage/>
-                    }
+                        element: <RegistrationPage />,
+                    },
                 ],
             },
             {
@@ -70,4 +51,4 @@ export const router = createBrowserRouter([
             },
         ],
     },
-]);
+]);;

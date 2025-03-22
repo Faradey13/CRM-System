@@ -2,25 +2,21 @@ import LoginForm from "@/features/Authentication/LoginForm";
 import {useEffect, useState} from "react";
 import {authApi} from "@/features/Authentication/api/authApi.ts";
 import {AuthData, defineCodeStatus, ErrorCodes} from "@/features/Authentication/model/types";
-import {userApi} from "@/entities/User/api/userApi.ts";
-import {setAuthStatus, setUser} from "@/features/Authentication/model/slice/authSlice.ts";
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "@/app/providers/StoreProvoder/config/store.ts";
 import {tokenService} from "@/features/Authentication/service/TokenService.ts";
 import {useNavigate} from "react-router-dom";
 import {RoutePath} from "@/app/providers/routes/model/constants";
 import {Flex} from "antd";
 import useApp from "antd/es/app/useApp";
+import {useUser} from "@/entities/User/service/useUser.ts";
 
 
 const LoginPage = () => {
 
     const [errorLoginMessage, setErrorLoginMessage] = useState<string>('');
     const [login, {error, isError, isLoading, isSuccess}] = authApi.useLoginMutation()
-    const {data: UserData} = userApi.useGetUserQuery()
-    const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate();
     const {message} = useApp();
+    const {fetchUser} = useUser()
 
     useEffect(() => {
         if (isError && error) {
@@ -48,17 +44,15 @@ const LoginPage = () => {
     }, [errorLoginMessage]);
 
     const handleLogin = async (values: AuthData) => {
-        const tokenData = await login(values).unwrap();
-        if (tokenData) {
+        try {
+            const tokenData = await login(values).unwrap();
             tokenService.setTokens(tokenData);
-
-            if (UserData) {
-                dispatch(setAuthStatus(true))
-                dispatch(setUser(UserData))
-            }
-            navigate(RoutePath.MAIN)
+            await fetchUser()
+            navigate(RoutePath.MAIN);
+        } catch (err) {
+            console.error('ошибка логина', err);
         }
-    }
+    };
     const showErrorMessage = async() => {
         if (errorLoginMessage) {
             console.log(errorLoginMessage)

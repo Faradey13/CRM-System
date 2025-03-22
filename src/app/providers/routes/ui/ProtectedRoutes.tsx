@@ -1,28 +1,30 @@
 import {Navigate, Outlet} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {StateSchema} from "@/app/providers/StoreProvoder/config/StateSchema.ts";
-import {useEffect, useState} from "react";
-import {setAuthStatus} from "@/features/Authentication/model/slice/authSlice.ts";
-import {tokenService} from "@/features/Authentication/service/TokenService.ts";
-import {AppDispatch} from "@/app/providers/StoreProvoder/config/store.ts";
 import {RoutePath} from "@/app/providers/routes/model/constants";
+import {Flex, Layout} from "antd";
+import MainMenu from "@/widgets/Sidebar";
 
 
 const ProtectedRoutes = () => {
-    const accessToken = tokenService.getAccessToken();
-    const [isInitialized, setIsInitialized] = useState(false)
     const isAuth = useSelector((state: StateSchema) => state.auth.isAuth)
-    const dispatch = useDispatch<AppDispatch>();
-    useEffect(() => {
-        if (accessToken) {
-            dispatch(setAuthStatus(true));
-        }
-        setIsInitialized(true);
-    }, [accessToken, dispatch]);
+    const isInitialized = useSelector((state: StateSchema) => state.auth.isInitialized);
 
-    if (!isInitialized) return null;
+    if(!isInitialized) return null
+    if (!isAuth) return <Navigate to={`${RoutePath.AUTH}/${RoutePath.REGISTER}`} replace/>;
 
-    return isAuth ? <Outlet/> : <Navigate to={`${RoutePath.AUTH}/${RoutePath.REGISTER}`} />;
+
+    return (
+        <main className={'app'}>
+            <Layout hasSider={true}>
+                <Flex justify={'center'}>
+                    <MainMenu />
+                    <Outlet />
+                </Flex>
+            </Layout>
+        </main>
+    );
 };
+
 
 export default ProtectedRoutes;

@@ -7,3 +7,9 @@ export interface Profile {
     isAdmin: boolean;
     phoneNumber: string;
 }
+
+export enum UserRoles {
+    ADMIN = "ADMIN",
+    MODERATOR = "MODERATOR",
+    USER = "USER",
+}

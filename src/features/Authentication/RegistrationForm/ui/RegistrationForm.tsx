@@ -62,7 +62,17 @@ export const RegistrationForm:FC<RegistrationFormProps> = ({onSubmit, isLoading}
                         rules={[
                             {required: true, message: 'Имя пользователя обязательно для заполнения'},
                             {min: MIN_USERNAME, message: `Длинна имени должна быть больше ${MIN_USERNAME}`},
-                            {max: MAX_USERNAME, message: `Длинна имени должна быть меньше ${MAX_USERNAME}`}
+                            {max: MAX_USERNAME, message: `Длинна имени должна быть меньше ${MAX_USERNAME}`},
+                            {
+                                validator: (_,value) => {
+                                    const regExpUsername =/^[a-zA-Zа-яА-ЯёЁ]+$/
+                                    if(!value || regExpUsername.test(value)){
+                                        return Promise.resolve()
+                                    } else {
+                                        return Promise.reject('Username может содержать только латинские и русские символы')
+                                    }
+                                }
+                            }
                         ]}
                         hasFeedback
                     >
@@ -75,7 +85,17 @@ export const RegistrationForm:FC<RegistrationFormProps> = ({onSubmit, isLoading}
                         rules={[
                             {required: true, message: 'Логин обязателен для заполнения'},
                             {min: MIN_LOGIN, message: `Длинна логина должна быть больше ${MIN_LOGIN}`},
-                            {max: MAX_LOGIN, message: `Длинна логина должна быть меньше ${MAX_LOGIN}`}
+                            {max: MAX_LOGIN, message: `Длинна логина должна быть меньше ${MAX_LOGIN}`},
+                            {
+                                validator: (_,value) => {
+                                    const regExpLogin = /^[a-zA-Z]+$/
+                                    if(!value || regExpLogin.test(value)){
+                                        return Promise.resolve()
+                                    } else {
+                                        return Promise.reject('Логин может содержать только латинские символы')
+                                    }
+                                }
+                            }
                         ]}
                         hasFeedback
                     >

@@ -29,12 +29,15 @@ export const baseQueryWithRefresh: BaseQueryFn<
                 if (newTokens) {
                     result = await baseQuery(args, api, extraOptions);
                 } else {
+                    tokenService.removeTokens()
                     return { error: { status: 401, data: 'Ошибка обновления токена' } as FetchBaseQueryError };
                 }
             } catch {
+                tokenService.removeTokens()
                 return { error: { status: 401, data: 'Ошибка обновления токена' } as FetchBaseQueryError };
             }
         } else {
+            tokenService.removeTokens()
             return result;
         }
     }

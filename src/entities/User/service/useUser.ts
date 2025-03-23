@@ -12,7 +12,8 @@ export const useUser = () => {
     const fetchUser = async () => {
 
         const token = tokenService.getAccessToken();
-        if (token) {
+        const refreshToken = tokenService.getRefreshToken();
+        if (token || refreshToken) {
             try {
                 const userResult = await trigger().unwrap();
                 console.log(userResult)

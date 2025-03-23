@@ -11,7 +11,7 @@ const ProtectedRoutes = () => {
     const isInitialized = useSelector((state: StateSchema) => state.auth.isInitialized);
 
     if(!isInitialized) return null
-    if (!isAuth) return <Navigate to={`${RoutePath.AUTH}/${RoutePath.REGISTER}`} replace/>;
+    if (!isAuth) return <Navigate to={`${RoutePath.AUTH}/${RoutePath.LOGIN}`} replace/>;
 
 
     return (

@@ -24,7 +24,6 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
                                                          isDisabled,
                                                          todoId,
                                                          title
-
                                                      }) => {
 
 

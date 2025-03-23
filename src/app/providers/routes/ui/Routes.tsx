@@ -1,4 +1,4 @@
-import {createBrowserRouter} from "react-router-dom";
+import {createBrowserRouter, Navigate} from "react-router-dom";
 import UserPage from "@/pages/UserPage";
 import TodoPage from "@/pages/TodoPage";
 import {RoutePath} from "@/app/providers/routes/model/constants";
@@ -33,7 +33,7 @@ export const router = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <NotFoundPage />,
+                        element: <Navigate to="*" replace />,
                     },
                     {
                         path: RoutePath.LOGIN,

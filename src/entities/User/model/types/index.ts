@@ -4,7 +4,7 @@ export interface Profile {
     email: string;
     date: string;
     isBlocked: boolean;
-    isAdmin: boolean;
+    roles: UserRoles[];
     phoneNumber: string;
 }
 

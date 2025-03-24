@@ -22,9 +22,9 @@ export const UserPage = () => {
     const user = useSelector((state: StateSchema) => state.auth.User);
     return (
         <div>
-            <h3>{user?.username}</h3>
-            <h3>{user?.email}</h3>
-            <h3>{user?.phoneNumber}</h3>
+            <h3>Имя пользователя: {user?.username}</h3>
+            <h3>Email: {user?.email}</h3>
+            <h3>Телефон: {user?.phoneNumber}</h3>
             <Button
                 onClick={handleLogout}
                 loading={isLoading}

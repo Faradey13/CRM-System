@@ -24,7 +24,7 @@ export const UserPage = () => {
         <div>
             <h3>Имя пользователя: {user?.username}</h3>
             <h3>Email: {user?.email}</h3>
-            <h3>Телефон: {user?.phoneNumber}</h3>
+            <h3>Телефон: {user? user.phoneNumber : 'Телефон не указан'}</h3>
             <Button
                 onClick={handleLogout}
                 loading={isLoading}

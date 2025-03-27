@@ -4,7 +4,9 @@ import {Menu} from "antd";
 import Sider from "antd/es/layout/Sider";
 
 
+
 export const MainMenu = () => {
+
     enum PagePath {
         MAIN = '/',
         USER = '/user'
@@ -16,6 +18,7 @@ export const MainMenu = () => {
 
     ];
 
+
     return (
         <Sider className={cls.sidebar}>
             <Menu className={cls.menu}
@@ -26,6 +29,7 @@ export const MainMenu = () => {
                       )
                   }))}
             />
+
         </Sider>
     );
 };

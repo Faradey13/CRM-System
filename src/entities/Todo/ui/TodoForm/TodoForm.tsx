@@ -25,6 +25,7 @@ export const TodoForm: FC<todoFormProps> = memo(({onSubmit, initialTitle, form, 
 
     return (
         <Form
+            form={form}
             id={formId}
             className={cls.formContainer}
             onFinish={handleSubmit}

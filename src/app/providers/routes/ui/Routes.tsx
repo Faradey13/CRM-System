@@ -1,33 +1,54 @@
-import {createBrowserRouter, Outlet} from "react-router-dom";
+import {createBrowserRouter, Navigate} from "react-router-dom";
 import UserPage from "@/pages/UserPage";
 import TodoPage from "@/pages/TodoPage";
-import {Flex, Layout} from "antd";
-
 import {RoutePath} from "@/app/providers/routes/model/constants";
-import {MainMenu} from "@/widgets/Sidebar/ui/MainMenu.tsx";
+import {ProtectedLayout} from "./ProtectedLayout.tsx";
+import NotFoundPage from "@/pages/NotFoundPage";
+import LoginPage from "@/pages/LoginPage";
+import App from "@/app/App.tsx";
+import RegistrationPage from "@/pages/RegistrationPage";
+import AuthLayout from "@/pages/AuthPage/index.ts";
 
 
 
 export const router = createBrowserRouter([
     {
-        element: (
-            <main className={'app'}>
-                <Layout hasSider={true}>
-                    <Flex justify={'center'}>
-                        <MainMenu />
-                        <Outlet />
-                    </Flex>
-                </Layout>
-            </main>
-        ),
+        element: <App />,
         children: [
             {
-                path: RoutePath.MAIN,
-                element: <TodoPage />,
+                element: <ProtectedLayout />,
+                children: [
+                    {
+                        path: RoutePath.MAIN,
+                        element: <TodoPage />,
+                    },
+                    {
+                        path: RoutePath.USER,
+                        element: <UserPage />,
+                    },
+                ],
             },
             {
-                path: RoutePath.USER,
-                element: <UserPage />,
+                path: RoutePath.AUTH,
+                element: <AuthLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <Navigate to="*" replace />,
+                    },
+                    {
+                        path: RoutePath.LOGIN,
+                        element: <LoginPage />,
+                    },
+                    {
+                        path: RoutePath.REGISTER,
+                        element: <RegistrationPage />,
+                    },
+                ],
+            },
+            {
+                path: '*',
+                element: <NotFoundPage />,
             },
         ],
     },

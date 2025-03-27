@@ -1,28 +1,23 @@
 import {Button, Flex, Form} from "antd";
 import {TodoForm} from "@/entities/Todo/ui/TodoForm/TodoForm.tsx";
 import {FormValues} from "@/entities/Todo/model/types";
-import {addTodo} from "@/entities/Todo/api/api.ts";
-import {FC, useId, useState} from "react";
+import {FC, useId} from "react";
+import {todosApi} from "@/entities/Todo/api/api.ts";
 
-interface AddTodoProps {
-    onAdded: () => Promise<void>;
-}
 
-const AddTodo:FC<AddTodoProps> = ({onAdded}) => {
+
+const AddTodo:FC = () => {
 
     const [form] = Form.useForm();
-    const [isLoading, setIsLoading] = useState<boolean>(false)
     const formId = useId()
+
+    const [addTodo,{isLoading}] = todosApi.useAddTodoMutation()
 
     const handleSubmit = async (values:FormValues) => {
         try {
-            setIsLoading(true)
             await addTodo(values.formValue)
-            await onAdded()
         } catch (e) {
             alert(e)
-        }  finally {
-            setIsLoading(false);
         }
     }
 

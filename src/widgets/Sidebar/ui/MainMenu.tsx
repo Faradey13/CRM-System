@@ -2,34 +2,38 @@ import {Link} from "react-router-dom";
 import cls from './Sidebar.module.scss'
 import {Menu} from "antd";
 import Sider from "antd/es/layout/Sider";
-
+import {RoutePath} from "@/app/providers/routes/model/constants";
+import {useSelector} from "react-redux";
+import {StateSchema} from "@/app/providers/StoreProvoder/config/StateSchema.ts";
 
 
 export const MainMenu = () => {
 
-    enum PagePath {
-        MAIN = '/',
-        USER = '/user'
-    }
+    const isAdmin = useSelector((state:StateSchema) => state.auth.isAdmin);
+
 
     const pages = [
-        { path: PagePath.MAIN, name: 'Список задач' },
-        { path: PagePath.USER, name: 'Профиль' },
+        { path: RoutePath.MAIN, name: 'Список задач', isAdmin: false },
+        { path: RoutePath.USER, name: 'Профиль', isAdmin: false },
+        { path: RoutePath.ADMIN_USERS, name: 'Пользователи', isAdmin: true}
 
     ];
+    const filteredPAges = pages.filter((page) => {
+        if(!page.isAdmin) return page;
+        if(page.isAdmin && isAdmin) return page
+    })
 
 
     return (
         <Sider className={cls.sidebar}>
             <Menu className={cls.menu}
-                  items={pages.map((page) => ({
+                  items={filteredPAges.map((page) => ({
                       key: page.path,
                       label: (
                           <Link to={page.path}>{page.name}</Link>
                       )
                   }))}
             />
-
         </Sider>
     );
 };

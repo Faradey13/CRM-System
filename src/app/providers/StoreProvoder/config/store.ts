@@ -5,6 +5,7 @@ import {todosApi} from "@/entities/Todo/api/api.ts";
 import {authReducer} from "@/features/Authentication/model/slice/authSlice.ts";
 import {globalReducer} from "@/app/providers/StoreProvoder/config/globalSlice.ts";
 import {userApi} from "@/entities/User/api/userApi.ts";
+import {adminApi} from "@/features/Administration/api/adminApi.ts";
 
 export const store = configureStore({
     reducer: {
@@ -13,9 +14,10 @@ export const store = configureStore({
         [userApi.reducerPath]:userApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
         [todosApi.reducerPath]: todosApi.reducer,
+        [adminApi.reducerPath]: adminApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(authApi.middleware, todosApi.middleware, userApi.middleware ),
+        getDefaultMiddleware().concat(authApi.middleware, todosApi.middleware, userApi.middleware, adminApi.middleware ),
 })
 setupListeners(store.dispatch)
 export type RootState = ReturnType<typeof store.getState>;

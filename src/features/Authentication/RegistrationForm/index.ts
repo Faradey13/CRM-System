@@ -1,4 +1,4 @@
-import {RegistrationForm} from "@/features/Authentication/RegistrationForm/ui/RegistrationForm.tsx";
+import {RegistrationView} from "./ui/RegistrationView.tsx";
 
 
-export default RegistrationForm;
+export default RegistrationView;

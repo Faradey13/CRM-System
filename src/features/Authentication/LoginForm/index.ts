@@ -1,4 +1,4 @@
-import {LoginForm} from "@/features/Authentication/LoginForm/ui/LoginForm.tsx";
+import {LoginView} from "@/features/Authentication/LoginForm/ui/LoginView.tsx";
 
 
-export default LoginForm;
+export default LoginView;

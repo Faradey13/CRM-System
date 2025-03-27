@@ -31,7 +31,7 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
     const [isRemoving, setIsRemoving] = useState<boolean>(false);
     // const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    const [delTodo, {isLoading: isDelLoading}] = todosApi.useDelTodoMutation()
+    const [deleteTodo, {isLoading: isDelLoading}] = todosApi.useDeleteTodoMutation()
     const [updateTodo] = todosApi.useUpdateTodoMutation()
 
     const handleRemove = () => {
@@ -54,7 +54,7 @@ export const TodoItem: FC<CheckboxComponentProps> = ({
 
     const handleDeleteTodo = async (id: number) => {
         try {
-            await delTodo(id)
+            await deleteTodo(id)
         } catch {
             alert('хозяин нам пизда, ничего не работает')
         }

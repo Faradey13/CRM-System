@@ -4,21 +4,26 @@ import {
     MIN_LOGIN,
     MIN_PASSWORD,
 } from "@/features/Authentication/model/constants";
-import cls from "@/features/Authentication/RegistrationForm/ui/RegistrationForm.module.scss";
+import cls from "@/features/Authentication/RegistrationForm/ui/RegistrationView.module.scss";
 import {AuthData} from "@/features/Authentication/model/types";
 import {FC} from "react";
 import {RoutePath} from "@/app/providers/routes/model/constants";
 import {useNavigate} from "react-router-dom";
 import loginIcon from '@/shared/assets/icons/loginIcon.svg'
 
-interface LoginFormProps {
+interface LoginViewProps {
     isLoading: boolean;
     onSubmit: (data: AuthData) => void;
 }
 
-export const LoginForm:FC<LoginFormProps> = ({isLoading,onSubmit,}) => {
+export const LoginView:FC<LoginViewProps> = ({isLoading,onSubmit,}) => {
     const [form] = Form.useForm<AuthData>();
     const navigate = useNavigate()
+
+    const handleGoToRegister = () => {
+        navigate(`${RoutePath.AUTH}/${RoutePath.REGISTER}`)
+    }
+
     return (
         <ConfigProvider
             theme={{
@@ -96,7 +101,7 @@ export const LoginForm:FC<LoginFormProps> = ({isLoading,onSubmit,}) => {
                         size={'large'}
                         className={cls.newAccCreate}
                         type={'primary'}
-                        onClick={() => navigate(`${RoutePath.AUTH}/${RoutePath.REGISTER}`)}
+                        onClick={handleGoToRegister}
                     >
                         Create account
                     </Button>

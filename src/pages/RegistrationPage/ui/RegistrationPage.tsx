@@ -1,5 +1,4 @@
 
-import RegistrationForm from "@/features/Authentication/RegistrationForm";
 import {authApi} from "@/features/Authentication/api/authApi.ts";
 import {useEffect, useState} from "react";
 import {defineCodeStatus, ErrorCodes, NewUser} from "@/features/Authentication/model/types";
@@ -7,6 +6,7 @@ import {Button, Flex} from "antd";
 import useApp from "antd/es/app/useApp";
 import {useNavigate} from "react-router-dom";
 import {RoutePath} from "@/app/providers/routes/model/constants";
+import RegistrationView from "@/features/Authentication/RegistrationForm";
 
 
 const RegistrationPage = () => {
@@ -50,6 +50,11 @@ const RegistrationPage = () => {
         }
     }
 
+    const handleGoToLogin = () => {
+        navigate(`${RoutePath.AUTH}/${RoutePath.LOGIN}`)
+        notification.destroy();
+    }
+
     const setMessageSuccess = async () => {
        notification.success({
            message: 'Регистрация прошла успешно!',
@@ -57,10 +62,7 @@ const RegistrationPage = () => {
            placement:"top",
            actions: (
                <Button
-                   onClick={() => {
-                       navigate(`${RoutePath.AUTH}/${RoutePath.LOGIN}`)
-                       notification.destroy();
-                   }}
+                   onClick={handleGoToLogin}
                >Login</Button>
            )
 
@@ -75,7 +77,7 @@ const RegistrationPage = () => {
 
     return (
         <Flex justify="center" align={"center"}>
-             <RegistrationForm
+             <RegistrationView
                 isLoading={isLoading}
                 onSubmit={handleRegistration}
             />

@@ -15,21 +15,22 @@ export const TodoPage = () => {
 
 
     const [filteredTodo, setFilteredTodo] = useState<TodoFilter>(TodoFilter.ALL)
-    const {data, } = todosApi.useGetTodosQuery(filteredTodo, {
+    const {data} = todosApi.useGetTodosQuery(filteredTodo, {
         pollingInterval: 5000,
+        refetchOnMountOrArgChange: true
     })
-    const currentTodo = data?.data.filter((todo) => {
-        if (filteredTodo === TodoFilter.ALL) {
-            return true
-        }
-        if (filteredTodo === TodoFilter.COMPLETED) {
-            return todo.isDone
-        }
-        if (filteredTodo === TodoFilter.IN_WORK) {
-            return !todo.isDone
-        }
-    })
-
+    // const currentTodo = data?.data.filter((todo) => {
+    //     if (filteredTodo === TodoFilter.ALL) {
+    //         return true
+    //     }
+    //     if (filteredTodo === TodoFilter.COMPLETED) {
+    //         return todo.isDone
+    //     }
+    //     if (filteredTodo === TodoFilter.IN_WORK) {
+    //         return !todo.isDone
+    //     }
+    // })
+    // экспериментировал)
 
     return (
         <main className={cls.wrapper}>
@@ -42,7 +43,7 @@ export const TodoPage = () => {
                 filteredTodo={filteredTodo}
             />
             <TodoList
-                todos={currentTodo}
+                todos={data?.data}
             />
         </main>
     );

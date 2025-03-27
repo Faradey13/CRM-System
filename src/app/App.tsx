@@ -21,7 +21,7 @@ function App() {
     </Flex>
 
     return (
-        <Flex justify={'center'} align={'start'} className="App">
+        <Flex vertical justify={'center'} align={'start'}>
             <Outlet/>
         </Flex>
     );

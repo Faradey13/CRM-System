@@ -1,3 +1,3 @@
-import AuthPage from "@/pages/AuthPage/ui/AuthPage.tsx";
+import { AuthLayout } from "@/pages/AuthPage/ui/AuthLayout.tsx";
 
-export default AuthPage;
+export default AuthLayout;

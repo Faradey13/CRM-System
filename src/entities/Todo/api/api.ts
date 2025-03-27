@@ -29,7 +29,7 @@ export const todosApi = createApi({
             }),
             invalidatesTags: ['todo'],
         }),
-        delTodo: build.mutation<Todo,number>({
+        deleteTodo: build.mutation<Todo,number>({
             query: (id) => ({
                 url: `/todos/${id}`,
                 method: 'DELETE',

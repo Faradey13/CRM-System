@@ -6,25 +6,22 @@ import {Flex, Layout} from "antd";
 import MainMenu from "@/widgets/Sidebar";
 
 
-const ProtectedRoutes = () => {
+export const ProtectedLayout = () => {
     const isAuth = useSelector((state: StateSchema) => state.auth.isAuth)
     const isInitialized = useSelector((state: StateSchema) => state.auth.isInitialized);
 
-    if(!isInitialized) return null
+    if (!isInitialized) return null
     if (!isAuth) return <Navigate to={`${RoutePath.AUTH}/${RoutePath.LOGIN}`} replace/>;
 
 
     return (
-        <main className={'app'}>
-            <Layout hasSider={true}>
-                <Flex justify={'center'}>
-                    <MainMenu />
-                    <Outlet />
-                </Flex>
-            </Layout>
-        </main>
+        <Layout hasSider={true}>
+            <Flex justify={'center'}>
+                <MainMenu/>
+                <Outlet/>
+            </Flex>
+        </Layout>
     );
 };
 
 
-export default ProtectedRoutes;

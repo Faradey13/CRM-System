@@ -1,6 +1,6 @@
 import {Button, ConfigProvider, Flex, Form, Input} from "antd";
 import {FC} from "react";
-import cls from './RegistrationForm.module.scss'
+import cls from './RegistrationView.module.scss'
 import {NewUser} from "@/features/Authentication/model/types";
 import {
     MAX_LOGIN, MAX_PASSWORD,
@@ -16,15 +16,19 @@ import loginIcon from '@/shared/assets/icons/loginIcon.svg'
 
 
 
-interface RegistrationFormProps {
+interface RegistrationViewProps {
     onSubmit: (data: NewUser) => void;
     isLoading: boolean;
 
 }
 
-export const RegistrationForm:FC<RegistrationFormProps> = ({onSubmit, isLoading}) => {
+export const RegistrationView:FC<RegistrationViewProps> = ({onSubmit, isLoading}) => {
     const [form] = Form.useForm<NewUser>();
     const navigate = useNavigate()
+
+    const handleGoToLogin = () => {
+        navigate(`${RoutePath.AUTH}/${RoutePath.LOGIN}`)
+    }
 
     return (
         <ConfigProvider
@@ -185,7 +189,7 @@ export const RegistrationForm:FC<RegistrationFormProps> = ({onSubmit, isLoading}
                         size={'large'}
                         className={cls.newAccCreate}
                         type={'primary'}
-                        onClick={() => navigate(`${RoutePath.AUTH}/${RoutePath.LOGIN}`)}
+                        onClick={handleGoToLogin}
 
                     >
                         Login

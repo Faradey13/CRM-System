@@ -1,13 +1,15 @@
 import LoginForm from "@/features/Authentication/LoginForm";
 import {useEffect, useState} from "react";
 import {authApi} from "@/features/Authentication/api/authApi.ts";
-import {AuthData, defineCodeStatus, ErrorCodes} from "@/features/Authentication/model/types";
+import {AuthData, defineCodeStatus, ErrorCodes, errorMessages} from "@/features/Authentication/model/types";
 import {tokenService} from "@/features/Authentication/service/TokenService.ts";
 import {useNavigate} from "react-router-dom";
 import {RoutePath} from "@/app/providers/routes/model/constants";
 import {Flex} from "antd";
 import useApp from "antd/es/app/useApp";
 import {useUser} from "@/entities/User/service/useUser.ts";
+
+
 
 
 const LoginPage = () => {
@@ -20,18 +22,8 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (isError && error) {
-            console.log(error)
             if (defineCodeStatus(error)) {
-                if (error.originalStatus === ErrorCodes.BadRequest) {
-                    setErrorLoginMessage('Ошибка авторизации, проверьте данные')
-                }
-                if (error.originalStatus === ErrorCodes.Unauthorized) {
-                    setErrorLoginMessage('Логин или пароль не верные')
-                }
-                if (error.originalStatus === ErrorCodes.ServerError) {
-                    setErrorLoginMessage('На сервере ведутся технические работы, приносим извинения за временные неудобства')
-                }
-
+                setErrorLoginMessage(errorMessages[error.originalStatus as ErrorCodes])
             }
         } else if (isSuccess) {
             showSuccessMessage()
@@ -46,7 +38,8 @@ const LoginPage = () => {
     const handleLogin = async (values: AuthData) => {
         try {
             const tokenData = await login(values).unwrap();
-            tokenService.setTokens(tokenData);
+            tokenService.setRefreshToken(tokenData.refreshToken);
+            tokenService.setAccessToken(tokenData.accessToken)
             await fetchUser()
             navigate(RoutePath.MAIN);
         } catch (err) {

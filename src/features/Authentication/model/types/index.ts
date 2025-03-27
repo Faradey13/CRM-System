@@ -20,7 +20,6 @@ export interface RefreshToken {
 
 export type unionErrorType  =  FetchBaseQueryError | SerializedError | undefined
 export function defineCodeStatus(error: unionErrorType) {
-
     return (
         error !== undefined &&
         typeof error === 'object' &&
@@ -42,6 +41,12 @@ export type NewUser = UserRegistration & { confirmPassword?: string }
 export interface Token {
     accessToken: string
     refreshToken: string
-
 }
+
+export const errorMessages: Record<ErrorCodes, string> = {
+    [ErrorCodes.Conflict]: "Конфликт данных авторизации",
+    [ErrorCodes.BadRequest]: "Некорректный запрос",
+    [ErrorCodes.Unauthorized]: "Ошибка авторизации",
+    [ErrorCodes.ServerError]: "На сервере ведутся технические работы, приносим извинения за временные неудобства",
+};
 

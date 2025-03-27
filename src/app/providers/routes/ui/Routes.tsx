@@ -2,12 +2,13 @@ import {createBrowserRouter, Navigate} from "react-router-dom";
 import UserPage from "@/pages/UserPage";
 import TodoPage from "@/pages/TodoPage";
 import {RoutePath} from "@/app/providers/routes/model/constants";
-import ProtectedRoutes from "@/app/providers/routes/ui/ProtectedRoutes.tsx";
+import {ProtectedLayout} from "./ProtectedLayout.tsx";
 import NotFoundPage from "@/pages/NotFoundPage";
 import LoginPage from "@/pages/LoginPage";
 import App from "@/app/App.tsx";
 import RegistrationPage from "@/pages/RegistrationPage";
-import AuthPage from "@/pages/AuthPage";
+import AuthLayout from "@/pages/AuthPage/index.ts";
+
 
 
 export const router = createBrowserRouter([
@@ -15,7 +16,7 @@ export const router = createBrowserRouter([
         element: <App />,
         children: [
             {
-                element: <ProtectedRoutes />,
+                element: <ProtectedLayout />,
                 children: [
                     {
                         path: RoutePath.MAIN,
@@ -29,7 +30,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: RoutePath.AUTH,
-                element: <AuthPage />,
+                element: <AuthLayout />,
                 children: [
                     {
                         index: true,

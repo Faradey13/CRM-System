@@ -1,9 +1,9 @@
 import {useDispatch, useSelector} from "react-redux";
 import {StateSchema} from "@/app/providers/StoreProvoder/config/StateSchema.ts";
-import {Button} from "antd";
-import {tokenService} from "@/features/Authentication/service/TokenService.ts";
+import {Button, message} from "antd";
 import {userApi} from "@/entities/User/api/userApi.ts";
 import {AppDispatch} from "@/app/providers/StoreProvoder/config/store.ts";
+import {logoutOnClient} from "@/features/Authentication/service/authService.ts";
 
 
 export const UserPage = () => {
@@ -12,9 +12,9 @@ export const UserPage = () => {
     const handleLogout = async () => {
         try {
             await logout(undefined)
-            tokenService.logoutOnClient(dispatch)
-        } catch (error){
-            console.error(error)
+            logoutOnClient(dispatch)
+        } catch {
+            message.error('ошибка выхода из системы, попробуйте позже')
         }
 
 

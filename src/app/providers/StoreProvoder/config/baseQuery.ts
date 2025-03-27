@@ -4,6 +4,8 @@ import {BASE_URL} from "@/shared/config/constants.ts";
 import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
 import {defineCodeStatus, ErrorCodes} from "@/features/Authentication/model/types";
 import {tokenService} from "@/features/Authentication/service/TokenService.ts";
+import {authApi} from "@/features/Authentication/api/authApi.ts";
+import {logoutOnClient} from "@/features/Authentication/service/authService.ts";
 
 
 const baseQuery = fetchBaseQuery({
@@ -25,19 +27,22 @@ export const baseQueryWithRefresh: BaseQueryFn<
         const refreshToken = tokenService.getRefreshToken();
         if (refreshToken) {
             try {
-                const newTokens = await tokenService.refreshTokens(api.dispatch);
+                const tokenUpdate = authApi.endpoints.tokenUpdate.initiate(refreshToken);
+                const newTokens = await api.dispatch(tokenUpdate).unwrap();
+                tokenService.setAccessToken(newTokens.accessToken);
+                tokenService.setRefreshToken(newTokens.refreshToken);
                 if (newTokens) {
                     result = await baseQuery(args, api, extraOptions);
                 } else {
-                    tokenService.removeTokens()
+                    logoutOnClient(api.dispatch)
                     return { error: { status: 401, data: 'Ошибка обновления токена' } as FetchBaseQueryError };
                 }
             } catch {
-                tokenService.removeTokens()
+                logoutOnClient(api.dispatch)
                 return { error: { status: 401, data: 'Ошибка обновления токена' } as FetchBaseQueryError };
             }
         } else {
-            tokenService.removeTokens()
+            logoutOnClient(api.dispatch)
             return result;
         }
     }

@@ -53,12 +53,6 @@ export const UsersPage = () => {
         border: '1px solid transparent',
     };
 
-    const handleSortChange = (order: 'asc' | 'desc' | undefined, field: string | undefined) => {
-        setSortOrder(order);
-        setSortBy(field);
-
-    };
-
     const menuNameSortItems: MenuProps['items'] = [
         {key: 'asc', label: 'Сортировать по возрастанию'},
         {key: 'desc', label: 'Сортировать по убыванию'},
@@ -144,8 +138,9 @@ export const UsersPage = () => {
             dataIndex: 'isBlocked',
             key: 'isBlocked',
 
-            filterDropdown: ({selectedKeys}) => (<div style={{padding: 8}}>
+            filterDropdown: ({selectedKeys}) => (<div style={{padding: 8, width: 200}}>
                 <Select
+                    style={{width: 170}}
                     value={
                         selectedKeys[0] === undefined
                             ? isBlocked === undefined
@@ -153,15 +148,9 @@ export const UsersPage = () => {
                                 : isBlocked
                                     ? 'Заблокированные'
                                     : 'Не заблокированные'
-                            : selectedKeys[0]
+                            : (selectedKeys[0] as 'all' | 'Заблокированные' | 'Не заблокированные')
                     }
-                    onChange={(value) => {
-                        if (value === 'all') setIsBlocked(undefined)
-                        else {
-                            setIsBlocked(Boolean(value))
-                        }
-                    }}
-                    style={{width: 220}}
+                    onChange={handleIsBlockedFilter}
                 >
                     <Select.Option value={'all'}>Все</Select.Option>
                     <Select.Option value={true}>Заблокированные</Select.Option>
@@ -273,21 +262,41 @@ export const UsersPage = () => {
         }
     }
 
+    const handleIsBlockedFilter = (value: 'all' | 'Заблокированные' | 'Не заблокированные') => {
+            if (value === 'all') {
+                setIsBlocked(undefined)
+                setCurrentPage(1)
+            }
+            else {
+                setIsBlocked(Boolean(value))
+                setCurrentPage(1)
+            }
+    }
+
 
     const handleDeleteUser = async (id: number) => {
         await deleteUser(id)
     }
     const handleSearch = (value: {search: string| undefined}) => {
         setSearch(value.search)
+        setCurrentPage(1)
     }
 
     const handleResetTable = () => {
         setLimit(20)
+        setCurrentPage(1)
         setSortOrder(undefined)
         setSortBy('')
         setIsBlocked(undefined)
         setSearch(undefined)
     }
+
+    const handleSortChange = (order: 'asc' | 'desc' | undefined, field: string | undefined) => {
+        setSortOrder(order);
+        setSortBy(field);
+        setCurrentPage(1)
+
+    };
 
     if (isFetching || isLoading) return <Loader/>
     return (

@@ -17,7 +17,7 @@ import {Profile, UserRoles} from "@/entities/User/model/types";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import ruRU from 'antd/es/locale/ru_RU';
-import {DownOutlined} from "@ant-design/icons";
+import {CheckCircleOutlined, DownOutlined, StopOutlined} from "@ant-design/icons";
 import {FindInTableForm} from "@/features/Administration/ui/FindInTableForm/FindInTableForm.tsx";
 import {RoutePath} from "@/app/providers/routes/model/constants";
 
@@ -157,7 +157,7 @@ export const UsersPage = () => {
                     <Select.Option value={false}>Не заблокированные</Select.Option>
                 </Select>
             </div>),
-            render: (isBlocked: boolean) => isBlocked ? 'Заблокирован' : 'Не заблокирован'
+            render: (isBlocked: boolean) =>  isBlocked ? <StopOutlined style={{color: 'red'}} />  :<CheckCircleOutlined style={{color: 'green'}} />
         },
         {
             title: 'Роли пользователя',

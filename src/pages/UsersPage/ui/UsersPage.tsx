@@ -37,9 +37,8 @@ export const UsersPage = () => {
             isBlocked: isBlocked,
             search: search,
         },
-        {refetchOnFocus: true, refetchOnMountOrArgChange: true}
+        {refetchOnMountOrArgChange: true}
     )
-
     const [deleteUser, {isLoading: delLoading}] = adminApi.useDeleteUserMutation()
     const [blockUser, {isLoading: isBlockLoading}] = adminApi.useBlockUserMutation()
     const [unblockUser, {isLoading: isUnblockLoading}] = adminApi.useUnblockUserMutation()
@@ -164,7 +163,7 @@ export const UsersPage = () => {
             dataIndex: 'roles',
             key: 'roles',
             render: (roles: UserRoles[]) => (
-                roles.map((role) => {
+                Array.isArray(roles) ? roles.map((role) => {
                     let color;
                     if (role === UserRoles.USER) color = 'blue'
                     if (role === UserRoles.MODERATOR) color = 'green'
@@ -175,7 +174,7 @@ export const UsersPage = () => {
                     return (
                         <Tag color={color} key={role}>{role}</Tag>
                     )
-                })
+                }) : null
             )
         },
         {
@@ -202,13 +201,13 @@ export const UsersPage = () => {
                         </Popconfirm>
                         <Popconfirm
                             onConfirm={() => handleAdminingUnadmining(record.id, record.roles)}
-                            title={record.roles.includes(UserRoles.ADMIN) ? 'Забрать роль админа?' : 'Выдать роль админа?'}
+                            title={Array.isArray(record.roles) ? record.roles.includes(UserRoles.ADMIN) ? 'Забрать роль админа?' : 'Выдать роль админа?' : null}
                         >
                             <Button
                                 loading={isEditRightsLoading}
-                                style={{background: !record.roles.includes(UserRoles.ADMIN) ? "rgba(89,237,232,0.47)" : "rgba(246,208,232,0.47)"}}
+                                style={{background: Array.isArray(record.roles) ? !record.roles.includes(UserRoles.ADMIN) ? "rgba(89,237,232,0.47)" : "rgba(246,208,232,0.47)" : "rgb(244,4,4)"}}
                             >
-                                {record.roles.includes(UserRoles.ADMIN) ? 'Забрать админа' : 'Дать админа'}
+                                {Array.isArray(record.roles) ? record.roles.includes(UserRoles.ADMIN) ? 'Забрать админа' : 'Дать админа' : 'Дать юзера'}
                             </Button>
                         </Popconfirm>
                     </Flex>
@@ -247,20 +246,19 @@ export const UsersPage = () => {
             console.error(error);
         }
     }
-    const handleAdminingUnadmining = async (id: number, roles: UserRoles[]) => {
+    const handleAdminingUnadmining = async (id: number, roles: UserRoles[] | null) => {
         try {
-            await editRights([
-                id,
-                {
-                    roles: roles.includes(UserRoles.ADMIN)
-                        ? roles.filter((role) => role !== UserRoles.ADMIN)
-                        : [...roles, UserRoles.ADMIN],
-                },
-            ]);
+            const updatedRoles = roles
+                ? (roles.includes(UserRoles.ADMIN)
+                    ? roles.filter(role => role !== UserRoles.ADMIN)
+                    : [...roles, UserRoles.ADMIN])
+                : [UserRoles.USER];
+
+            await editRights([id, { roles: updatedRoles }]);
         } catch (error) {
             console.error(error);
         }
-    }
+    };
 
     const handleIsBlockedFilter = (value: 'all' | 'Заблокированные' | 'Не заблокированные') => {
             if (value === 'all') {
@@ -278,8 +276,14 @@ export const UsersPage = () => {
         await deleteUser(id)
     }
     const handleSearch = (value: {search: string| undefined}) => {
-        setSearch(value.search)
-        setCurrentPage(1)
+        const emptySearch =  /[\t ]+/;
+        if(value.search && emptySearch.test(value.search)) {
+            setSearch(undefined)
+
+        } else {
+            setSearch(value.search)
+
+        }
     }
 
     const handleResetTable = () => {
@@ -332,6 +336,7 @@ export const UsersPage = () => {
                                 const sortBy = sorter.field;
 
                                 if (order && sortBy) {
+                                    console.log(pagination.current)
                                     setCurrentPage(pagination.current || 1);
                                 }
                             }
@@ -341,7 +346,7 @@ export const UsersPage = () => {
                             current: currentPage,
                             total: totalAmount,
                             showSizeChanger: true,
-                            pageSizeOptions: ['10', '20'],
+                            pageSizeOptions: ['10', '50'],
                             onChange: (page, pageSize) => {
                                 setCurrentPage(page);
                                 setLimit(pageSize);

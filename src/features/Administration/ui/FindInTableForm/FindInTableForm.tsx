@@ -1,5 +1,5 @@
 import {Button, Flex, Form, Input} from "antd";
-import {FC} from "react";
+import {FC, useEffect, useState} from "react";
 
 interface FindInTableFormProps {
     handleSearch: (value: { search: string| undefined }) => void;
@@ -7,22 +7,35 @@ interface FindInTableFormProps {
 
 export const FindInTableForm: FC<FindInTableFormProps> = ({handleSearch}) => {
 
+    const [searchValue, setSearchValue] = useState<string>()
+    const [debounceValue, setDebounceValue] = useState<string>()
     const handleReset = () => {
         handleSearch({search: undefined})
     }
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebounceValue(searchValue)
+        }, 500)
+        return () =>  clearTimeout(timer)
+    }, [searchValue]);
+
+    useEffect(() => {
+       if(debounceValue)
+        handleSearch({search: debounceValue})
+    }, [debounceValue]);
+
     return (
 
-        <Form onFinish={handleSearch}>
+        <Form>
             <Flex>
                 <Form.Item
                     name={'search'}
                 >
-                    <Input/>
+                    <Input
+                        onChange={(e => setSearchValue(e.currentTarget.value))}
+                    />
                 </Form.Item>
-                <Button
-                    htmlType={'submit'}
-                >Найти</Button>
                 <Button
                     onClick={handleReset}
                 >

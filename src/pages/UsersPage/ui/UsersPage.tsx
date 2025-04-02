@@ -52,6 +52,13 @@ export const UsersPage = () => {
         border: '1px solid transparent',
     };
 
+    const roleColorMap: Record<UserRoles, string | { style: React.CSSProperties }> = {
+        [UserRoles.USER]: 'blue',
+        [UserRoles.MODERATOR]: 'green',
+        [UserRoles.ADMIN]: 'red',
+        [UserRoles.HUILA]: { style: LGBTStyle },
+        }
+
     const menuNameSortItems: MenuProps['items'] = [
         {key: 'asc', label: 'Сортировать по возрастанию'},
         {key: 'desc', label: 'Сортировать по убыванию'},
@@ -75,7 +82,7 @@ export const UsersPage = () => {
     }));
 
     const handleGoToUserById =  (id: number) => {
-        navigate(RoutePath.Get_ADMIN_USER(id))
+        navigate((RoutePath.USER).replace(':id', id.toString()), {state: {isFromAdminPage : true}})
     }
 
     const columns: ColumnsType<Profile> = [
@@ -164,15 +171,15 @@ export const UsersPage = () => {
             key: 'roles',
             render: (roles: UserRoles[]) => (
                 Array.isArray(roles) ? roles.map((role) => {
-                    let color;
-                    if (role === UserRoles.USER) color = 'blue'
-                    if (role === UserRoles.MODERATOR) color = 'green'
-                    if (role === UserRoles.ADMIN) color = 'red'
-
-
-                    if (role === UserRoles.HUILA) return <Tag style={LGBTStyle} key={role}>{role}</Tag>
-                    return (
-                        <Tag color={color} key={role}>{role}</Tag>
+                    const colorOrStyle = roleColorMap[role];
+                    return typeof colorOrStyle === 'string' ? (
+                        <Tag color={colorOrStyle} key={role}>
+                            {role}
+                        </Tag>
+                    ) : (
+                        <Tag style={colorOrStyle.style} key={role}>
+                            {role}
+                        </Tag>
                     )
                 }) : null
             )
@@ -189,7 +196,7 @@ export const UsersPage = () => {
                 <Space style={{width: '100%'}} wrap>
                     <Flex vertical gap={10}>
                         <Popconfirm
-                            title={record.isBlocked ? 'Разблокировать пользователя?' : 'Под шконку?'}
+                            title={record.isBlocked ? 'Разблокировать пользователя?' : 'Забанить пользователя?'}
                             onConfirm={() => handleBanUnbanUser(record.id, record.isBlocked)}
                         >
                             <Button

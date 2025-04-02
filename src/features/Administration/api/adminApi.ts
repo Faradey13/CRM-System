@@ -1,7 +1,8 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
 import {baseQueryWithRefresh} from "@/app/providers/StoreProvoder/config/baseQuery.ts";
 import {Profile} from "@/entities/User/model/types";
-import {MetaResponse, UserAdminFilters, UserEditRequest, UserRolesRequest} from "@/features/Administration/model/types";
+import {UserAdminFilters, UserEditRequest, UserRolesRequest} from "@/features/Administration/model/types";
+import {MetaResponse} from "@/shared/types";
 
 
 export const adminApi = createApi({
@@ -9,7 +10,7 @@ export const adminApi = createApi({
     reducerPath: 'adminApi',
     baseQuery: baseQueryWithRefresh,
     endpoints: (build) => ({
-        getAllUsers: build.query<MetaResponse<Profile>, UserAdminFilters>({
+        getAllUsers: build.query<MetaResponse<Profile, undefined>, UserAdminFilters>({
             query: (params) => ({
                 url:'/admin/users',
                 method: 'GET',

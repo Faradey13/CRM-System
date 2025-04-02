@@ -16,13 +16,13 @@ export interface TodoInfo {
     inWork: number
 }
 
-export interface MetaResponse<T, N> {
-    data: T[]
-    info?: N
-    meta: {
-        totalAmount: number
-    }
-}
+// export interface MetaResponse<T, N> {
+//     data: T[]
+//     info?: N
+//     meta: {
+//         totalAmount: number
+//     }
+// }
 
 export enum TodoFilter  {
     ALL = 'all',

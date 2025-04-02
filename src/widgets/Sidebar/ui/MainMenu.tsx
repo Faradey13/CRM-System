@@ -10,11 +10,12 @@ import {StateSchema} from "@/app/providers/StoreProvoder/config/StateSchema.ts";
 export const MainMenu = () => {
 
     const isAdmin = useSelector((state:StateSchema) => state.auth.isAdmin);
+    const user = useSelector((state: StateSchema) => state.auth.User)
 
 
     const pages = [
         { path: RoutePath.MAIN, name: 'Список задач', isAdmin: false },
-        { path: RoutePath.USER, name: 'Профиль', isAdmin: false },
+        { path: (RoutePath.USER).replace(':id', String(user?.id)), name: 'Профиль', isAdmin: false },
         { path: RoutePath.ADMIN_USERS, name: 'Пользователи', isAdmin: true}
 
     ];

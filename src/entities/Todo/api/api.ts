@@ -1,11 +1,12 @@
 import {
-    MetaResponse,
     type Todo,
     TodoInfo,
     TodoRequest
 } from "../model/types";
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {BASE_URL} from "@/shared/config/constants.ts";
+import {MetaResponse} from "@/shared/types";
+
 
 
 export const todosApi = createApi({
@@ -14,11 +15,12 @@ export const todosApi = createApi({
     tagTypes: ['todo'],
     endpoints: (build) => ({
         getTodos: build.query<MetaResponse<Todo, TodoInfo>, string>({
-            query: (type) => ({
-                url: '/todos?filter=',
-                params: {type},
+            query: (filter) => ({
+                url: '/todos',
+                params: {filter},
                 method: 'GET',
             }),
+            keepUnusedDataFor: 0,
             providesTags: () => ['todo']
         }),
         addTodo: build.mutation<Todo,string>({

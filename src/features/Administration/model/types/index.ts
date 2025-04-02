@@ -1,30 +1,16 @@
-import {UserRoles} from "@/entities/User/model/types";
+import {Profile, UserRoles} from "@/entities/User/model/types";
 
 
-export interface User {
-    id: number;
-    username: string;
-    email: string;
-    date: string;
-    isBlocked: boolean;
-    roles: UserRoles[];
-    phoneNumber: string;
-}
+// export interface MetaResponse<T> {
+//     data: T[]
+//     meta: {
+//         totalAmount: number;
+//         sortBy: string;
+//         sortOrder: 'asc' | 'desc';
+//     }
+// }
 
-export interface MetaResponse<T> {
-    data: T[]
-    meta: {
-        totalAmount: number;
-        sortBy: string;
-        sortOrder: 'asc' | 'desc';
-    }
-}
-
-export interface UserEditRequest{
-    username?: string;
-    email?: string;
-    phoneNumber?: string;
-}
+export type UserEditRequest = Pick<Partial<Profile>, 'phoneNumber' | 'username' | 'email'>
 
 export interface UserAdminFilters {
     search?: string;

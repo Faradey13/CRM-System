@@ -1,30 +1,33 @@
 import {Button, Form, Input} from "antd";
-import {Profile} from "@/entities/User/model/types";
 import {FC} from "react";
 import {adminApi} from "@/features/Administration/api/adminApi.ts";
 import {MAX_USERNAME, MIN_USERNAME} from "@/features/Authentication/model/constants";
+import {UserEditRequest} from "@/features/Administration/model/types";
 
-type EditUserFormValues = Pick<Profile, 'username' | 'email' | 'phoneNumber'>
+
 
 interface EditUserFormProps {
-    userValues: EditUserFormValues;
+    initialValues: UserEditRequest;
     id: number;
     close: () => void;
 }
 
-export const EditUserForm: FC<EditUserFormProps> = ({userValues, id, close}) => {
+export const EditUserForm: FC<EditUserFormProps> = ({initialValues, id, close}) => {
     const [editUserById, {isLoading}] = adminApi.useEditUserByIdMutation()
-    const initialValues: EditUserFormValues = {
-        email: userValues.email,
-        username: userValues.username,
-        phoneNumber: userValues.phoneNumber
+    const userValues: UserEditRequest = {
+        email: initialValues.email,
+        username: initialValues.username,
+        phoneNumber: initialValues.phoneNumber
     }
 
-    const handleEditUser = async (values: EditUserFormValues) => {
-        const userEditData: Partial<EditUserFormValues> = {}
-        if(values.email! !== initialValues.email) userEditData['email'] = values.email
-        if(values.username! !== initialValues.username) userEditData['username'] = values.username
-        if(values.phoneNumber! !== initialValues.phoneNumber) userEditData['phoneNumber'] = values.phoneNumber
+    const handleEditUser = async (values: UserEditRequest) => {
+        const userEditData: Partial<UserEditRequest> = {}
+        for(const [key, value] of Object.entries(values) as [keyof UserEditRequest, string][]) {
+            if(value !== userValues[key]){
+                userEditData[key] = value
+            }
+        }
+
         try {
             await editUserById([id, userEditData])
             close()
@@ -34,11 +37,11 @@ export const EditUserForm: FC<EditUserFormProps> = ({userValues, id, close}) => 
     }
 
     return (
-        <Form<EditUserFormValues>
+        <Form<UserEditRequest>
             onFinish={handleEditUser}
-            initialValues={initialValues}
+            initialValues={userValues}
         >
-            <Form.Item<EditUserFormValues>
+            <Form.Item<UserEditRequest>
                 name={'username'}
                 rules={[
                     {min: MIN_USERNAME, message: `Длинна имени должна быть больше ${MIN_USERNAME}`},
@@ -47,7 +50,7 @@ export const EditUserForm: FC<EditUserFormProps> = ({userValues, id, close}) => 
             >
                 <Input/>
             </Form.Item>
-            <Form.Item<EditUserFormValues>
+            <Form.Item<UserEditRequest>
                 name={'email'}
                 rules={[
                     {type: "email", message: 'Введите корректный email'},
@@ -55,7 +58,7 @@ export const EditUserForm: FC<EditUserFormProps> = ({userValues, id, close}) => 
             >
                 <Input/>
             </Form.Item>
-            <Form.Item<EditUserFormValues>
+            <Form.Item<UserEditRequest>
                 name={'phoneNumber'}
                 rules={[
                     {

@@ -23,13 +23,14 @@ export const FindInTableForm: FC<FindInTableFormProps> = ({handleSearch}) => {
     useEffect(() => {
        if(debounceValue)
         handleSearch({search: debounceValue})
-    }, [debounceValue]);
+    }, [searchValue]);
 
     return (
 
         <Form>
             <Flex>
                 <Form.Item
+                    validateDebounce={500}
                     name={'search'}
                 >
                     <Input

@@ -7,9 +7,8 @@ import NotFoundPage from "@/pages/NotFoundPage";
 import LoginPage from "@/pages/LoginPage";
 import App from "@/app/App.tsx";
 import RegistrationPage from "@/pages/RegistrationPage";
-import AdminLayout from "@/app/providers/routes/ui/AdminLayout.tsx";
 import UsersPage from "@/pages/UsersPage";
-import AdminUserPage from "@/pages/AdminUserPage/ui/AdminUserPage.tsx";
+
 import AuthLayout from "@/pages/AuthPage";
 
 
@@ -30,17 +29,8 @@ export const router = createBrowserRouter([
                         element: <UserPage />,
                     },
                     {
-                        element: <AdminLayout />,
-                        children: [
-                            {
-                                path: RoutePath.ADMIN_USERS,
-                                element: <UsersPage />,
-                            },
-                            {
-                                path: RoutePath.ADMIN_USER,
-                                element: <AdminUserPage/>
-                            }
-                        ],
+                        path: RoutePath.ADMIN_USERS,
+                        element: <UsersPage />,
                     },
                 ],
             },

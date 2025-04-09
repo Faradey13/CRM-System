@@ -5,11 +5,15 @@ import {AppDispatch} from "@/app/providers/StoreProvoder/config/store.ts";
 import {logoutOnClient} from "@/features/Authentication/service/authService.ts";
 import {useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {adminApi} from "@/features/Administration/api/adminApi.ts";
+import {adminApi} from "@/features/Administer/api/adminApi.ts";
 import Loader from "@/shared/ui/Loader/Loader.tsx";
-import {EditUserForm} from "@/features/Administration";
-import {RoutePath} from "@/app/providers/routes/model/constants";
-import {StateSchema} from "@/app/providers/StoreProvoder/config/StateSchema.ts";
+import {EditUserForm} from "@/features/Administer";
+import {StateSchema} from "@/shared/config/StateSchema.ts";
+import { RoutePath } from "@/shared/config/constants";
+
+
+
+
 
 
 
@@ -51,11 +55,11 @@ export const UserPage = () => {
     if((isFromAdminPage && isSuccess )|| !isFromAdminPage)
         return (
             <Flex justify={'center'} align={'center'} gap={30} vertical>
-                <h1>{`Пользователь ${userData?.id}`}</h1>
+                <h1>{`Пользователь ${userData?.username}`}</h1>
                 {
                     isEditing && isFromAdminPage && data ?
                         <EditUserForm
-                            id={Number(id)}
+                            userId={Number(id)}
                             close={closeEditing}
                             initialValues={{
                                 phoneNumber: data.phoneNumber ,

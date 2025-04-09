@@ -10,8 +10,8 @@ import {
     MIN_USERNAME
 } from "@/features/Authentication/model/constants";
 import {useNavigate} from "react-router-dom";
-import {RoutePath} from "@/app/providers/routes/model/constants";
 import loginIcon from '@/shared/assets/icons/loginIcon.svg'
+import {PHONE_REGEX, RoutePath} from "@/shared/config/constants.ts";
 
 
 
@@ -158,8 +158,7 @@ export const RegistrationView:FC<RegistrationViewProps> = ({onSubmit, isLoading}
                         rules={[
                             {
                                 validator: (_, value) => {
-                                    const phoneRegex = /^\+?[1-9]\d{6,14}$/
-                                    if (!value || phoneRegex.test(value)) {
+                                    if (!value || PHONE_REGEX.test(value)) {
                                         return Promise.resolve();
                                     }
                                     return Promise.reject(new Error('Введите корректный номер телефона'))

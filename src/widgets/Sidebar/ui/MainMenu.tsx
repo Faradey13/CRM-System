@@ -2,9 +2,9 @@ import {Link} from "react-router-dom";
 import cls from './Sidebar.module.scss'
 import {Menu} from "antd";
 import Sider from "antd/es/layout/Sider";
-import {RoutePath} from "@/app/providers/routes/model/constants";
 import {useSelector} from "react-redux";
-import {StateSchema} from "@/app/providers/StoreProvoder/config/StateSchema.ts";
+import {StateSchema} from "@/shared/config/StateSchema.ts";
+import { RoutePath } from "@/shared/config/constants";
 
 
 export const MainMenu = () => {

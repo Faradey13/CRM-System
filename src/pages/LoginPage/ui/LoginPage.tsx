@@ -4,10 +4,10 @@ import {authApi} from "@/features/Authentication/api/authApi.ts";
 import {AuthData, defineCodeStatus, ErrorCodes, errorMessages} from "@/features/Authentication/model/types";
 import {tokenService} from "@/features/Authentication/service/TokenService.ts";
 import {useNavigate} from "react-router-dom";
-import {RoutePath} from "@/app/providers/routes/model/constants";
 import {Flex} from "antd";
 import useApp from "antd/es/app/useApp";
 import {useUser} from "@/entities/User/service/useUser.ts";
+import { RoutePath } from "@/shared/config/constants";
 
 
 

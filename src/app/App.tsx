@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 
 import {Flex, Spin} from "antd";
 import './styles/index.scss'
-import {StateSchema} from "@/app/providers/StoreProvoder/config/StateSchema.ts";
+import {StateSchema} from "@/shared/config/StateSchema.ts";
 import {useUser} from "@/entities/User/service/useUser.ts";
 
 

@@ -1,13 +1,14 @@
 import {useSelector} from "react-redux";
-import {StateSchema} from "@/app/providers/StoreProvoder/config/StateSchema.ts";
+import {StateSchema} from "@/shared/config/StateSchema.ts";
 import {Navigate, Outlet} from "react-router-dom";
-import {RoutePath} from "@/app/providers/routes/model/constants";
+import { RoutePath } from "@/shared/config/constants";
 
 
-const  AdminLayout = () => {
+
+const  RoleLayout = () => {
     const isAdmin = useSelector((state: StateSchema) => state.auth.isAdmin);
 
 
     return isAdmin ? <Outlet/> : <Navigate to = {RoutePath.MAIN} />
 }
-export default AdminLayout;
+export default RoleLayout;

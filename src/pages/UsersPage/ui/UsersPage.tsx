@@ -1,4 +1,3 @@
-import {adminApi} from "@/features/Administration/api/adminApi.ts";
 import {
     Button,
     ConfigProvider,
@@ -18,8 +17,9 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import ruRU from 'antd/es/locale/ru_RU';
 import {CheckCircleOutlined, DownOutlined, StopOutlined} from "@ant-design/icons";
-import {FindInTableForm} from "@/features/Administration/ui/FindInTableForm/FindInTableForm.tsx";
-import {RoutePath} from "@/app/providers/routes/model/constants";
+import { adminApi } from "@/features/Administer/api/adminApi";
+import { RoutePath } from "@/shared/config/constants";
+import { FindInTableForm } from "@/features/Administer";
 
 
 export const UsersPage = () => {

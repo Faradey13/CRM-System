@@ -7,9 +7,9 @@ import {
 import cls from "@/features/Authentication/RegistrationForm/ui/RegistrationView.module.scss";
 import {AuthData} from "@/features/Authentication/model/types";
 import {FC} from "react";
-import {RoutePath} from "@/app/providers/routes/model/constants";
 import {useNavigate} from "react-router-dom";
 import loginIcon from '@/shared/assets/icons/loginIcon.svg'
+import { RoutePath } from "@/shared/config/constants";
 
 interface LoginViewProps {
     isLoading: boolean;

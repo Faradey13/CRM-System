@@ -1,6 +1,7 @@
+import { RoutePath } from "@/shared/config/constants";
 import {Button} from "antd";
 import {useNavigate} from "react-router-dom";
-import {RoutePath} from "@/app/providers/routes/model/constants";
+
 
 
 const NotFoundPage = () => {

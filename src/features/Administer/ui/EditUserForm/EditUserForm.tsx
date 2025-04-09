@@ -1,18 +1,20 @@
 import {Button, Form, Input} from "antd";
 import {FC} from "react";
-import {adminApi} from "@/features/Administration/api/adminApi.ts";
+import {adminApi} from "@/features/Administer/api/adminApi.ts";
 import {MAX_USERNAME, MIN_USERNAME} from "@/features/Authentication/model/constants";
-import {UserEditRequest} from "@/features/Administration/model/types";
+import {UserEditRequest} from "@/features/Administer/model/types";
+import {PHONE_REGEX} from "@/shared/config/constants.ts";
+import {getChangedValues} from "@/shared/utils/getChangedValues.ts";
 
 
 
 interface EditUserFormProps {
     initialValues: UserEditRequest;
-    id: number;
+    userId: number;
     close: () => void;
 }
 
-export const EditUserForm: FC<EditUserFormProps> = ({initialValues, id, close}) => {
+export const EditUserForm: FC<EditUserFormProps> = ({initialValues, userId, close}) => {
     const [editUserById, {isLoading}] = adminApi.useEditUserByIdMutation()
     const userValues: UserEditRequest = {
         email: initialValues.email,
@@ -21,15 +23,11 @@ export const EditUserForm: FC<EditUserFormProps> = ({initialValues, id, close}) 
     }
 
     const handleEditUser = async (values: UserEditRequest) => {
-        const userEditData: Partial<UserEditRequest> = {}
-        for(const [key, value] of Object.entries(values) as [keyof UserEditRequest, string][]) {
-            if(value !== userValues[key]){
-                userEditData[key] = value
-            }
-        }
-
+        const userEditData = getChangedValues(userValues, values)
         try {
-            await editUserById([id, userEditData])
+            if(Object.keys(userEditData).length > 0) {
+                await editUserById([userId, userEditData])
+            }
             close()
         } catch (error) {
             console.error('Ошибка обновления пользователя', error)
@@ -63,8 +61,7 @@ export const EditUserForm: FC<EditUserFormProps> = ({initialValues, id, close}) 
                 rules={[
                     {
                         validator: (_, value) => {
-                            const phoneRegex = /^\+?[1-9]\d{6,14}$/
-                            if (!value || phoneRegex.test(value)) {
+                            if (!value || PHONE_REGEX.test(value)) {
                                 return Promise.resolve();
                             }
                             return Promise.reject(new Error('Введите корректный номер телефона'))

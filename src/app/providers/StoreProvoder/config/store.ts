@@ -5,7 +5,7 @@ import {todosApi} from "@/entities/Todo/api/api.ts";
 import {authReducer} from "@/features/Authentication/model/slice/authSlice.ts";
 import {globalReducer} from "@/app/providers/StoreProvoder/config/globalSlice.ts";
 import {userApi} from "@/entities/User/api/userApi.ts";
-import {adminApi} from "@/features/Administration/api/adminApi.ts";
+import {adminApi} from "@/features/Administer/api/adminApi.ts";
 
 export const store = configureStore({
     reducer: {

@@ -1,7 +1,7 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
 import {baseQueryWithRefresh} from "@/app/providers/StoreProvoder/config/baseQuery.ts";
-import {Profile} from "@/entities/User/model/types";
-import {UserAdminFilters, UserEditRequest, UserRolesRequest} from "@/features/Administration/model/types";
+import {User} from "@/entities/User/model/types";
+import {UserAdminFilters, UserEditRequest, UserRolesRequest} from "@/features/Administer/model/types";
 import {MetaResponse} from "@/shared/types";
 
 
@@ -10,7 +10,7 @@ export const adminApi = createApi({
     reducerPath: 'adminApi',
     baseQuery: baseQueryWithRefresh,
     endpoints: (build) => ({
-        getAllUsers: build.query<MetaResponse<Profile, undefined>, UserAdminFilters>({
+        getAllUsers: build.query<MetaResponse<User, undefined>, UserAdminFilters>({
             query: (params) => ({
                 url:'/admin/users',
                 method: 'GET',
@@ -20,14 +20,14 @@ export const adminApi = createApi({
             providesTags: () => ['users']
         }),
 
-        getUserById: build.query<Profile, number>({
+        getUserById: build.query<User, number>({
             query: (id) => ({
                 url:`/admin/users/${id}`,
                 method: 'GET',
             })
         }),
 
-        editUserById: build.mutation<Profile, [number, UserEditRequest]>({
+        editUserById: build.mutation<User, [number, UserEditRequest]>({
             query: ([id, userData]) => ({
                 url: `/admin/users/${id}`,
                 method: 'PUT',
@@ -36,7 +36,7 @@ export const adminApi = createApi({
             invalidatesTags : ['users'],
         }),
 
-        blockUser: build.mutation<Profile, number>({
+        blockUser: build.mutation<User, number>({
             query: (id) => ({
                 url: `/admin/users/${id}/block`,
                 method: 'POST'
@@ -44,7 +44,7 @@ export const adminApi = createApi({
             invalidatesTags : ['users'],
         }),
 
-        unblockUser: build.mutation<Profile, number>({
+        unblockUser: build.mutation<User, number>({
             query: (id) => ({
                 url: `/admin/users/${id}/unblock`,
                 method: 'POST'
@@ -52,7 +52,7 @@ export const adminApi = createApi({
             invalidatesTags : ['users'],
         }),
 
-        editRights: build.mutation<Profile, [number, UserRolesRequest]>({
+        editRights: build.mutation<User, [number, UserRolesRequest]>({
             query:([id, roles]) => ({
                 url: `/admin/users/${id}/rights`,
                 method: 'POST',

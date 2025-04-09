@@ -14,3 +14,13 @@ export enum UserRoles {
     USER = "USER",
     HUILA= "HUILA",
 }
+
+export interface User {
+    id: number;
+    username: string;
+    email: string;
+    date: string;
+    isBlocked: boolean;
+    roles: UserRoles[];
+    phoneNumber: string;
+}

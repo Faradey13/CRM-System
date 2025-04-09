@@ -5,8 +5,8 @@ import {defineCodeStatus, ErrorCodes, NewUser} from "@/features/Authentication/m
 import {Button, Flex} from "antd";
 import useApp from "antd/es/app/useApp";
 import {useNavigate} from "react-router-dom";
-import {RoutePath} from "@/app/providers/routes/model/constants";
 import RegistrationView from "@/features/Authentication/RegistrationForm";
+import { RoutePath } from "@/shared/config/constants";
 
 
 const RegistrationPage = () => {
